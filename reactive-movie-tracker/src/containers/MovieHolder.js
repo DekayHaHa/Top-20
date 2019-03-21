@@ -6,13 +6,16 @@ import { addMovies } from '../actions'
 
 
 class MovieHolder extends Component {
+	displayMovie = () => {
 
+	}
   render() {
-		console.log(this.props)
     return (
       <div>
         <h1>I'm the holder</h1>
-        `
+        {this.props.movies.map(movie => {
+					return <Link to={`/${movie.id}`} key={movie.id}><Movie {...movie}/></Link>
+				})}
       </div>
     );
   }
