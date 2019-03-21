@@ -27,7 +27,7 @@ class Login extends Component {
       password: this.state.password,
       email: this.state.email
     };
-    console.log("fired");
+    console.log("fired handlePost");
 
     fetch(url, {
       method: "POST",
@@ -36,10 +36,27 @@ class Login extends Component {
         "Content-Type": "application/json"
       }
     })
-      // .then(res => res.json())
-      // .then(response => console.log("Success:", JSON.stringify(response)))
-      // .catch(error => console.error("Error:", error));
   };
+
+  handleSignIn = () => {
+    const url = "http://localhost:3000/api/users";
+    const data = {
+      name: this.state.name,
+      password: this.state.password,
+      email: this.state.email
+    };
+    console.log("fired handleSignIn");
+
+    fetch(url, {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+    .then(data => console.log(data.status))
+    console.log(this.state)
+  }
 
   handleNameInput = event => {
     this.setState({
@@ -62,6 +79,8 @@ class Login extends Component {
   render() {
     return (
       <div>
+        <button onClick={this.handleSignIn}>Sign In</button>
+        
         <button onClick={this.handlePost}>POST</button>
         <form onSubmit={this.handleSubmit}>
           <label>
