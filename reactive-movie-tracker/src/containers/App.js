@@ -7,21 +7,24 @@ import { addMovies } from '../actions'
 import { Header } from './Header'
 import { Route } from 'react-router-dom'
 import { Login } from './Login'
+import { cleanMovies } from '../utilities/cleaner'
 
 
 class App extends Component {
   async componentDidMount () {
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1`
     const response = await fetchData(url)
-    await this.props.addMovies(response.results)
+    const finalData = cleanMovies(response.results)
+    this.props.addMovies(finalData)
     console.log(response)
   }
   render() {
     console.log(this.props)
     return (
       <div className="App">
-        <MovieHolder />
         <Route path='/' component={Header}/>
+        <Route exact path='/' component={MovieHolder}/>
+        {/* <MovieHolder /> */}
         {/* <Route path='/' component={MovieHolder}/> */}
         <Route path='/login' component={Login}/>
       </div>
