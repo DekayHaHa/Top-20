@@ -8,6 +8,7 @@ import { Header } from './Header'
 import { Route } from 'react-router-dom'
 import { Login } from './Login'
 import { cleanMovies } from '../utilities/cleaner'
+import { MovieDetails } from '../components/MovieDetails'
 
 
 class App extends Component {
@@ -27,6 +28,10 @@ class App extends Component {
         {/* <MovieHolder /> */}
         {/* <Route path='/' component={MovieHolder}/> */}
         <Route path='/login' component={Login}/>
+        <Route exact path='/:id' render={({match}) => {
+          const MovieToRender = this.props.movies.find(movie => movie.id == match.params.id)
+          return <MovieDetails {...MovieToRender}/>
+        }}/>
       </div>
     );
   }
