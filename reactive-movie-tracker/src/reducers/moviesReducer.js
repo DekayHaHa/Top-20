@@ -4,5 +4,6 @@ export const moviesReducer = (state = [], action) => {
 			return action.movies
 		default:
 		return state
+
 	}
 }

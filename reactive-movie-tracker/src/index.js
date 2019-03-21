@@ -12,15 +12,13 @@ const store = createStore(
 	window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-const router = (
+ReactDOM.render(
+<Provider store={store}>
 	<BrowserRouter>
-		<Provider store={store}>
-			<App />
-		</Provider>
+		<App />
 	</BrowserRouter>
-)
-
-ReactDOM.render(router, document.getElementById('root'));
+</Provider>, 
+document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
