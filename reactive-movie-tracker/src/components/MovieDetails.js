@@ -6,10 +6,9 @@ const MovieDetails = class extends Component {
 		return (
 			<div>
 				<h1>{title}</h1>
-				<img src={image} />
+				<img alt='movie poster' src={image} />
 				<p>Score: {score}</p>
 				<p>{overview}</p>
-				{/* map over movies and display in <link></link> */}
 			</div>
 		);
 	}
