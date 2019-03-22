@@ -6,6 +6,7 @@ export const cleanMovies = (movies) => {
 			overview: val.overview,
 			score: val.vote_average,
 			id: val.id,
+			isFavorite: false,
 		}
 	})
 }

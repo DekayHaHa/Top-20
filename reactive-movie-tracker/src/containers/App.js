@@ -5,33 +5,40 @@ import { APIkey } from '../utilities/key.js'
 import { connect } from 'react-redux'
 import { addMovies } from '../actions'
 import { Header } from './Header'
-import { Route } from 'react-router-dom'
-import { Login } from './Login'
+import { Route, Switch } from 'react-router-dom'
+import Login from './Login'
 import { cleanMovies } from '../utilities/cleaner'
 import { MovieDetails } from '../components/MovieDetails'
+import { PageNotFound } from '../components/PageNotFound'
 
 
 class App extends Component {
-  async componentDidMount () {
+  componentDidMount () {
+    this.getMovieData()
+  }
+  getMovieData = async () => {
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1`
     const response = await fetchData(url)
     const finalData = cleanMovies(response.results)
     this.props.addMovies(finalData)
-    console.log(response)
+  }
+  findMovieToRender = (id) => {
+    const MovieToRender = this.props.movies.find(movie => movie.id === id)
+    const movie =  < MovieDetails { ...MovieToRender } />
+    return MovieToRender ? movie : <PageNotFound />
   }
   render() {
-    console.log(this.props)
     return (
       <div className="App">
         <Route path='/' component={Header}/>
-        <Route exact path='/' component={MovieHolder}/>
-        {/* <MovieHolder /> */}
-        {/* <Route path='/' component={MovieHolder}/> */}
-        <Route path='/login' component={Login}/>
-        <Route exact path='/:id' render={({match}) => {
-          const MovieToRender = this.props.movies.find(movie => movie.id == match.params.id)
-          return <MovieDetails {...MovieToRender}/>
-        }}/>
+        <Switch>
+          <Route exact path='/' component={MovieHolder}/>
+          <Route exact path='/login' component={Login}/>
+          <Route exact path='/movie/:id' render={({match}) => {
+            return this.findMovieToRender(parseInt(match.params.id))
+          }}/>
+          <Route component={PageNotFound}/>
+        </Switch>
       </div>
     );
   }

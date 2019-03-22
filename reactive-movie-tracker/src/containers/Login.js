@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { fetchData } from "../utilities/api";
+import { connect } from 'react-redux';
 
 class Login extends Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class Login extends Component {
     };
   }
 
-  loginFetch = () => {};
+  loginFetch = () => {
+
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -38,23 +41,24 @@ class Login extends Component {
     })
   };
 
-  handleSignIn = () => {
+  handleSignIn = async () => {
     const url = "http://localhost:3000/api/users";
-    const data = {
+    const userInfo = {
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
     };
     console.log("fired handleSignIn");
 
-    fetch(url, {
+    const response = await fetch(url, {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(userInfo),
       headers: {
         "Content-Type": "application/json"
       }
     })
-    .then(data => console.log(data.status))
+    const data = await response.json()
+    console.log(data)
     console.log(this.state)
   }
 
@@ -114,4 +118,10 @@ class Login extends Component {
   }
 }
 
-export { Login };
+export const mapStateToProps = (state) => ({
+})
+
+export const mapDispatchtoProps = (dispatch) => ({
+})
+
+export default connect(mapStateToProps, mapDispatchtoProps)(Login);

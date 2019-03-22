@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { Link, Route } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Movie } from "./Movie";
 import { connect } from 'react-redux';
-import { addMovies } from '../actions'
-
 
 class MovieHolder extends Component {
 	displayMovie = () => {
@@ -14,7 +12,12 @@ class MovieHolder extends Component {
       <div>
         <h1>I'm the holder</h1>
         {this.props.movies.map(movie => {
-					return <Link to={`/${movie.id}`} key={movie.id}><Movie {...movie}/></Link>
+					return (
+						<div key={movie.id}>
+							<Link to={`/movie/${movie.id}`}><Movie {...movie}/></Link>
+							<button>Favorite</button>
+						</div>
+					)
 				})}
       </div>
     );
