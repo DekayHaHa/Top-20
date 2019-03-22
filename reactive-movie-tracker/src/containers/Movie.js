@@ -6,8 +6,7 @@ const Movie = class extends Component {
 			<div>
 				<h1>{this.props.title}</h1>
 				<img alt='movie poster' src={this.props.image}/>
-				<button>Favorite</button>
-				{/* map over movies and display in <link></link> */}
+				{/* fire function to alter favorite state */}
 			</div>
 		);
 	}

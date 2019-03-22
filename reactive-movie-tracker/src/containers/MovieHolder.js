@@ -12,7 +12,12 @@ class MovieHolder extends Component {
       <div>
         <h1>I'm the holder</h1>
         {this.props.movies.map(movie => {
-					return <Link to={`/movie/${movie.id}`} key={movie.id}><Movie {...movie}/></Link>
+					return (
+						<div key={movie.id}>
+							<Link to={`/movie/${movie.id}`}><Movie {...movie}/></Link>
+							<button>Favorite</button>
+						</div>
+					)
 				})}
       </div>
     );

@@ -12,7 +12,9 @@ class Login extends Component {
     };
   }
 
-  loginFetch = () => {};
+  loginFetch = () => {
+
+  };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -41,7 +43,7 @@ class Login extends Component {
 
   handleSignIn = async () => {
     const url = "http://localhost:3000/api/users";
-    const data = {
+    const userInfo = {
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
@@ -50,13 +52,13 @@ class Login extends Component {
 
     const response = await fetch(url, {
       method: "POST",
-      body: JSON.stringify(data),
+      body: JSON.stringify(userInfo),
       headers: {
         "Content-Type": "application/json"
       }
     })
-    const dataTwo = await response.json()
-    console.log(dataTwo)
+    const data = await response.json()
+    console.log(data)
     console.log(this.state)
   }
 

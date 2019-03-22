@@ -21,21 +21,23 @@ class App extends Component {
     const response = await fetchData(url)
     const finalData = cleanMovies(response.results)
     this.props.addMovies(finalData)
-    console.log(response)
+  }
+  findMovieToRender = (id) => {
+    const MovieToRender = this.props.movies.find(movie => movie.id === id)
+    const movie =  < MovieDetails { ...MovieToRender } />
+    return MovieToRender ? movie : <PageNotFound />
   }
   render() {
-    console.log(this.props)
     return (
       <div className="App">
         <Route path='/' component={Header}/>
         <Switch>
-        <Route exact path='*' component={PageNotFound}/>
-        <Route exact path='/' component={MovieHolder}/>
-        <Route exact path='/login' component={Login}/>
-        <Route exact path='/movie/:id' render={({match}) => {
-          const MovieToRender = this.props.movies.find(movie => movie.id === parseInt(match.params.id))
-          return <MovieDetails {...MovieToRender}/>
-        }}/>
+          <Route exact path='/' component={MovieHolder}/>
+          <Route exact path='/login' component={Login}/>
+          <Route exact path='/movie/:id' render={({match}) => {
+            return this.findMovieToRender(parseInt(match.params.id))
+          }}/>
+          <Route component={PageNotFound}/>
         </Switch>
       </div>
     );
