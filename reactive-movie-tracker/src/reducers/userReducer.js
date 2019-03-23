@@ -1,8 +1,8 @@
-export const userReducer = (state = [], action) => {
+export const signInReducer = (state = {}, action) => {
 	switch (action.type) {
-		case 'UPDATE_USER':
+		case 'SIGNIN_USER':
 			const { id, name } = action;
-			return { id, name }
+			return { id, name}
 		default:
 			return state
 

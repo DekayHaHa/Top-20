@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { fetchData } from "../utilities/api";
 import { connect } from "react-redux";
+import { signInUser } from "../actions";
 
 class Login extends Component {
   constructor(props) {
@@ -59,6 +60,7 @@ class Login extends Component {
         }
       });
       const data = await response.json();
+      this.props.signInUser(data.data.id,data.data.name)
     } catch (error) {
       this.setState({
         error: `Username/password does not match.`
@@ -155,9 +157,13 @@ class Login extends Component {
   }
 }
 
-export const mapStateToProps = state => ({});
+export const mapStateToProps = state => ({
+  activeUser: state.activeUser
+});
 
-export const mapDispatchtoProps = dispatch => ({});
+export const mapDispatchtoProps = (dispatch) => ({
+  signInUser: (id, name) => dispatch(signInUser(id,name))
+});
 
 export default connect(
   mapStateToProps,
