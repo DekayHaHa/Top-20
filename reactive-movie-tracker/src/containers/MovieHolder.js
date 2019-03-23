@@ -8,6 +8,7 @@ class MovieHolder extends Component {
 
 	}
   render() {
+		// if favorite filter toRender = favorites || movies
     return (
       <div>
         <h1>I'm the holder</h1>
