@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { fetchData } from "../utilities/api";
 import { connect } from "react-redux";
 import { signInUser } from "../actions";
+import { Redirect } from 'react-router-dom'
 
 class Login extends Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Login extends Component {
     };
   }
 
-  loginFetch = () => {};
+  loginFetch = () => { };
 
   handleSubmit = event => {
     event.preventDefault();
@@ -22,10 +23,10 @@ class Login extends Component {
     fetchData(url).then(result => console.log(result.data[0].name));
   };
 
-  handlePost = (e) => {
+  handlePost = async (e) => {
     e.preventDefault();
     const url = "http://localhost:3000/api/users/new";
-    const data = {
+    const userInfo = {
       id: 1,
       name: this.state.name,
       password: this.state.password,
@@ -33,13 +34,27 @@ class Login extends Component {
     };
     console.log("fired handlePost");
 
-    fetch(url, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(userInfo),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+      const data = await response.json();
+      if (data.error){
+        this.setState({error: 'That email is already taken'})
+      } else {
+        await this.props.signInUser(data.id, this.state.name)
       }
-    });
+    } catch (error) {
+      this.setState({
+        error: `Could Not Create a New User at This Time.`
+      }, () => console.log(this.state.error));
+      
+
+    }
   };
 
   handleSignIn = async (e) => {
@@ -60,7 +75,7 @@ class Login extends Component {
         }
       });
       const data = await response.json();
-      this.props.signInUser(data.data.id,data.data.name)
+      this.props.signInUser(data.data.id, data.data.name)
     } catch (error) {
       this.setState({
         error: `Username/password does not match.`
@@ -87,73 +102,58 @@ class Login extends Component {
     });
   };
 
-  invalidInputs = () => {
-    return <div>{this.state.error}</div>;
-  };
-
+  signInInputs = () => {
+    const { email, password } = this.state
+    return email && password ? false : true 
+  }
+  signUpInputs = () => {
+    const { email, password, name } = this.state
+    return email && password && name ? false : true
+  }
   render() {
-    if (this.state.error) {
-      return (
-        <div>
-          <div>{this.invalidInputs()}</div>
-          <div>
-            <form onSubmit={this.handlePost}>
-              <label>
-                Name:
-                <input
-                  type="text"
-                  value={this.state.name}
-                  onChange={this.handleNameInput}
-                />
-              </label>
-              <label>
-                Password:
-                <input
-                  type="text"
-                  value={this.state.password}
-                  onChange={this.handlePasswordInput}
-                />
-              </label>
-              <label>
-                Email:
-                <input
-                  type="text"
-                  value={this.state.email}
-                  onChange={this.handleEmailInput}
-                />
-              </label>
-              <input type="submit" value="Submit" />
-            </form>
-          </div>
-
-          <button onClick={this.handlePost}>Sign Up Today!</button>
-        </div>
-      );
-    } else {
-      return (
-        <div>
-          <form onSubmit={this.handleSignIn}>
-            <label>
-              Password:
-              <input
-                type="text"
-                value={this.state.password}
-                onChange={this.handlePasswordInput}
-              />
-            </label>
-            <label>
-              Email:
-              <input
-                type="text"
-                value={this.state.email}
-                onChange={this.handleEmailInput}
-              />
-            </label>
-            <input type="submit" value="Submit" />
-          </form>
-        </div>
-      );
+    const { email, password, name, error } = this.state
+    let formSubmitMethod = this.handleSignIn
+    if (error) {
+      formSubmitMethod = this.handlePost
     }
+    const signInBtnToggle = this.signInInputs();
+   
+    const signUpBtnToggle = this.signUpInputs();
+    return (
+      <div>
+        {this.props.activeUser.id && <Redirect to='/' />}
+        {error && <h3>{error}</h3>}
+        <form onSubmit={formSubmitMethod}>
+          {error && <label>
+            Name:
+                <input
+              type="text"
+              value={name}
+              onChange={this.handleNameInput}
+            />
+          </label>}
+          <label>
+            Password:
+              <input
+              type="text"
+              value={password}
+              onChange={this.handlePasswordInput}
+            />
+          </label>
+          <label>
+            Email:
+              <input
+              type="text"
+              value={email}
+              onChange={this.handleEmailInput}
+            />
+          </label>
+          <button disabled={signInBtnToggle} onClick={this.handleSignIn}>Sign In</button>
+          {error && <button disabled={signUpBtnToggle} onClick={this.handlePost}>Sign Up NOW!</button>}
+        </form>
+      </div>
+    );
+    // }
   }
 }
 
@@ -162,7 +162,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchtoProps = (dispatch) => ({
-  signInUser: (id, name) => dispatch(signInUser(id,name))
+  signInUser: (id, name) => dispatch(signInUser(id, name))
 });
 
 export default connect(
