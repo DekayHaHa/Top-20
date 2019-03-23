@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { fetchData } from "../utilities/api";
 import { connect } from "react-redux";
 import { signInUser } from "../actions";
+import { Redirect} from "react-router-dom"
 
 class Login extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class Login extends Component {
     fetchData(url).then(result => console.log(result.data[0].name));
   };
 
-  handlePost = (e) => {
+  handlePost =  (e) => {
     e.preventDefault();
     const url = "http://localhost:3000/api/users/new";
     const data = {
@@ -33,7 +34,7 @@ class Login extends Component {
     };
     console.log("fired handlePost");
 
-    fetch(url, {
+     fetch(url, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
@@ -132,6 +133,8 @@ class Login extends Component {
     } else {
       return (
         <div>
+          {this.props.activeUser.id > 0 && <Redirect to="/"/>}
+
           <form onSubmit={this.handleSignIn}>
             <label>
               Password:
