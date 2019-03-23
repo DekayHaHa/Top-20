@@ -3,8 +3,8 @@ export const addMovies = (movies) => ({
 	movies
 })
 
-export const updateUser = (id, name) => ({
-	type: 'UPDATE_USER',
+export const signInUser = (id, name) => ({
+	type: 'SIGNIN_USER',
 	name,
-	id,
+	id
 })
