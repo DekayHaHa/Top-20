@@ -25,7 +25,7 @@ class App extends Component {
   findMovieToRender = (id) => {
     const MovieToRender = this.props.movies.find(movie => movie.id === id)
     const movie =  < MovieDetails { ...MovieToRender } />
-    return MovieToRender ? movie : <PageNotFound />
+    return MovieToRender ? movie : false
   }
   render() {
     return (
@@ -35,7 +35,8 @@ class App extends Component {
           <Route exact path='/' component={MovieHolder}/>
           <Route exact path='/login' component={Login}/>
           <Route exact path='/movie/:id' render={({match}) => {
-            return this.findMovieToRender(parseInt(match.params.id))
+            const movie = this.findMovieToRender(parseInt(match.params.id))
+            return movie || <PageNotFound /> 
           }}/>
           <Route component={PageNotFound}/>
         </Switch>
