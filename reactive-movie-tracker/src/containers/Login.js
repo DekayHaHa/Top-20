@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { fetchData } from "../utilities/api";
 import { connect } from "react-redux";
 import { signInUser } from "../actions";
-import { Redirect } from 'react-router-dom'
+import { Redirect} from "react-router-dom"
 
 class Login extends Component {
   constructor(props) {
@@ -33,7 +33,6 @@ class Login extends Component {
       email: this.state.email
     };
     console.log("fired handlePost");
-
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -52,8 +51,6 @@ class Login extends Component {
       this.setState({
         error: `Could Not Create a New User at This Time.`
       }, () => console.log(this.state.error));
-      
-
     }
   };
 

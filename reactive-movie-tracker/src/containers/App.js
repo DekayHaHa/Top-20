@@ -4,8 +4,8 @@ import { fetchData } from '../utilities/api'
 import { APIkey } from '../utilities/key.js'
 import { connect } from 'react-redux'
 import { addMovies } from '../actions'
-import  Header from './Header'
-import { Route, Switch } from 'react-router-dom'
+import Header  from './Header'
+import { Route, Switch, Redirect } from 'react-router-dom'
 import Login from './Login'
 import { cleanMovies } from '../utilities/cleaner'
 import { MovieDetails } from '../components/MovieDetails'
@@ -28,6 +28,7 @@ class App extends Component {
     return MovieToRender ? movie : false
   }
   render() {
+    
     return (
       <div className="App">
         <Route path='/' component={Header}/>
@@ -46,7 +47,8 @@ class App extends Component {
 }
 
 export const mapStateToProps = (state) => ({
-  movies: state.movies
+  movies: state.movies,
+  activeUser: state.activeUser
 })
 
 export const mapDispatchtoProps = (dispatch) => ({
