@@ -1,7 +1,8 @@
-export const moviesReducer = (state = [], action) => {
+export const userReducer = (state = [], action) => {
 	switch (action.type) {
-		case 'ADD_MOVIES':
-			return action.movies
+		case 'UPDATE_USER':
+			const { id, name } = action;
+			return { id, name }
 		default:
 			return state
 
