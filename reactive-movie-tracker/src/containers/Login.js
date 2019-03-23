@@ -59,7 +59,6 @@ class Login extends Component {
     })
     const data = await response.json()
     console.log(data)
-    console.log(this.state)
   }
 
   handleNameInput = event => {
