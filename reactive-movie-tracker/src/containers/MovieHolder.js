@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { cleanFavorites} from '../utilities/cleaner'
-
 import Movie from "./Movie";
 import { connect } from "react-redux";
+import { addMovies } from "../actions/index"
 
 class MovieHolder extends Component {
   constructor(props) {
@@ -24,7 +24,7 @@ class MovieHolder extends Component {
     });
 		const data = await response.json();
     const favorites = await cleanFavorites(data.data)
-		await this.setState({favorites})
+		await this.setState({favorites}, () => this.compareFavorites())
    
   };
 
@@ -34,12 +34,18 @@ class MovieHolder extends Component {
 
   compareFavorites = () => {
     // return movies compared against user favorites
+    const { movies } = this.props
+    const { favorites } = this.state
+    const favIds = favorites.map(fav => fav.id)
+    const newMovies = movies.map(movie => {
+      return favIds.includes(movie.id) ? {...movie, isFavorite: true} : movie
+    })
+    this.props.addMovies(newMovies)
   }
 
   render() {
     const { movies, activeUser } = this.props
     const { displayFavorites, favorites } = this.state
-
     const btnText = displayFavorites ? 'Show All' : 'Display Favorites';
     const moviesToRender = activeUser.id && displayFavorites ? favorites : movies
     {activeUser.id && this.retrieveAllFavorites()}
@@ -74,7 +80,11 @@ export const mapStateToProps = state => ({
   activeUser: state.activeUser
 });
 
+export const mapDispatchToProps = dispatch => ({
+  addMovies: (movies) => dispatch(addMovies(movies))
+})
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(MovieHolder);
