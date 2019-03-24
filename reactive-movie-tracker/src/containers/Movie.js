@@ -22,7 +22,7 @@ const Movie = class extends Component {
         "Content-Type": "application/json"
       }
     });
-    const data = await response.json();
+    // const data = await response.json();
     
   };
 
@@ -41,13 +41,21 @@ const Movie = class extends Component {
         "Content-Type": "application/json"
       }
     });
-    const data = await response.json();
-    
+    // const data = await response.json();
   };
 
 
   render() {
-		const { id, title, image } = this.props;
+    const { id, title, image, isFavorite } = this.props;
+    let methodToggle;
+    let btnVal;
+    if (isFavorite) {
+      methodToggle = this.deleteFromFavorites
+      btnVal = 'Unfavorite'
+     } else {
+      methodToggle = this.addToFavorites
+      btnVal = 'Favorite'
+     } 
 
     return (
       <div>
@@ -55,8 +63,7 @@ const Movie = class extends Component {
           <h1>{title}</h1>
           <img alt="movie poster" src={image} />
         </Link>
-        <button onClick={this.addToFavorites}>Favorite</button>
-        <button onClick={this.deleteFromFavorites}>Unfavorite</button>
+        <button className={`favorite ${isFavorite}`} onClick={methodToggle}>{btnVal}</button>
       </div>
     );
   }

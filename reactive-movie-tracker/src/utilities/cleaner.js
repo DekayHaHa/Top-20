@@ -19,7 +19,7 @@ export const cleanFavorites = (movies) => {
 			image: val.poster_path,
 			overview: val.overview,
 			score: val.vote_average,
-			id: val.id,
+			id: val.movie_id,
 			isFavorite: false, 
 			releaseDate: val.release_date
 		}
