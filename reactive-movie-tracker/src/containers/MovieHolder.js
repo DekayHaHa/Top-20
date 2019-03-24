@@ -1,32 +1,26 @@
 import React, { Component } from "react";
 import { cleanFavorites} from '../utilities/cleaner'
 import Movie from "./Movie";
+import { retrieveAllFavorites} from '../utilities/api'
 import { connect } from "react-redux";
-import { addMovies } from "../actions/index"
+import { addMovies,addFavorites } from "../actions/index"
 
 class MovieHolder extends Component {
   constructor(props) {
     super(props);
     this.state = {
       displayFavorites: false,
-      favorites: []
     };
   }
 
-  retrieveAllFavorites = async () => {
-    const id = this.props.activeUser.id;
-    const url = `http://localhost:3000/api/users/${id}/favorites`;
-    const response = await fetch(url, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-		const data = await response.json();
-    const favorites = await cleanFavorites(data.data)
-		await this.setState({favorites}, () => this.compareFavorites())
-   
-  };
+
+retrieveAllFavFromAPI = async () => {
+  const id = this.props.activeUser.id;
+  const url = `http://localhost:3000/api/users/${id}/favorites`;
+  let results = await retrieveAllFavorites(url)
+  this.props.addFavorites(results)
+  this.compareFavorites();
+}
 
   toggleFavorites = () => {
     this.setState({ displayFavorites: this.state.displayFavorites ? false : true})
@@ -34,8 +28,8 @@ class MovieHolder extends Component {
 
   compareFavorites = () => {
     // return movies compared against user favorites
-    const { movies } = this.props
-    const { favorites } = this.state
+    const { movies , favorites} = this.props
+  
     const favIds = favorites.map(fav => fav.id)
     const newMovies = movies.map(movie => {
       return favIds.includes(movie.id) ? {...movie, isFavorite: true} : movie
@@ -44,44 +38,29 @@ class MovieHolder extends Component {
   }
 
   render() {
-    const { movies, activeUser } = this.props
-    const { displayFavorites, favorites } = this.state
+    const { movies, activeUser, favorites } = this.props
+    const { displayFavorites } = this.state
     const btnText = displayFavorites ? 'Show All' : 'Display Favorites';
     const moviesToRender = activeUser.id && displayFavorites ? favorites : movies
-    {activeUser.id && this.retrieveAllFavorites()}
+    {activeUser.id && this.retrieveAllFavFromAPI()}
       return (
         <div>
           <button onClick={this.toggleFavorites}>{btnText}</button>
           {moviesToRender.map(movie => <Movie key={movie.id} {...movie} />)}
         </div>
       );
-    // } else {
-		// 	// console.log(this.state.favorites)
-    //   return (
-    //     <div>
-    //       <button onClick={this.toggleFavorites}>Display All Movies</button>
-    //       <div>
-    //         {this.state.favorites.map(movie => {
-    //           return (
-    //             <div key={movie.id}>
-    //               <Movie {...movie} />
-    //             </div>
-    //           );
-    //         })}
-    //       </div>
-    //     </div>
-    //   );
-    
   }
 }
 
 export const mapStateToProps = state => ({
   movies: state.movies,
-  activeUser: state.activeUser
+  activeUser: state.activeUser,
+  favorites : state.favorites
 });
 
 export const mapDispatchToProps = dispatch => ({
-  addMovies: (movies) => dispatch(addMovies(movies))
+  addMovies: (movies) => dispatch(addMovies(movies)),
+  addFavorites: (movies) => dispatch(addFavorites(movies))
 })
 
 export default connect(

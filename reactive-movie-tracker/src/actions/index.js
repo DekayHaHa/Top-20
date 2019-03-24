@@ -8,3 +8,9 @@ export const signInUser = (id, name) => ({
 	name,
 	id
 })
+
+export const addFavorites = (movies) => ({
+	type: 'ADD_FAVORITES',
+	movies
+})
+

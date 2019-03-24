@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { addFavorites } from "../actions";
 
 const Movie = class extends Component {
 
@@ -73,6 +74,11 @@ export const mapStateToProps = state => ({
   movies: state.movies,
   activeUser: state.activeUser
 });
+
+export const mapDispatchToProps = dispatch => ({
+  addFavorites: (movie) => dispatch(addFavorites(movie))
+})
+
 
 export default connect(
   mapStateToProps,
