@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { addFavorites } from "../actions";
+import { addFavorites, addMovies } from "../actions";
+import { retrieveAllFavorites } from "../utilities/api"
 
 const Movie = class extends Component {
-
   addToFavorites = async () => {
     const url = "http://localhost:3000/api/users/favorites/new";
     const movieInfo = {
@@ -23,9 +23,17 @@ const Movie = class extends Component {
         "Content-Type": "application/json"
       }
     });
-    // const data = await response.json();
+    this.props.activeUser.id && await this.retrieveAllFavFromAPI()
     
   };
+  retrieveAllFavFromAPI = async () => {
+    const { activeUser } = this.props
+    const id = activeUser.id;
+    const url = `http://localhost:3000/api/users/${id}/favorites`;
+    let results = await retrieveAllFavorites(url)
+    await this.compareFavorites(results);
+    await this.props.addFavorites(results)
+  }
 
   deleteFromFavorites = async () => {
     const user_id = this.props.activeUser.id;
@@ -42,9 +50,21 @@ const Movie = class extends Component {
         "Content-Type": "application/json"
       }
     });
-    // const data = await response.json();
+    this.props.activeUser.id && await this.retrieveAllFavFromAPI()
   };
 
+  compareFavorites = (results) => {
+    const { movies } = this.props
+    const favIds = results.map(fav => fav.id)
+    const newMovies = movies.map(movie => {
+      return favIds.includes(movie.id) ? { ...movie, isFavorite: true } : {...movie, isFavorite: false}
+    })
+    this.props.addMovies(newMovies)
+  }
+
+  componentDidMount() {
+    this.props.activeUser.id && this.retrieveAllFavFromAPI()
+  }
 
   render() {
     const { id, title, image, isFavorite } = this.props;
@@ -57,7 +77,6 @@ const Movie = class extends Component {
       methodToggle = this.addToFavorites
       btnVal = 'Favorite'
      } 
-
     return (
       <div>
         <Link to={`/movie/${id}`}>
@@ -72,15 +91,17 @@ const Movie = class extends Component {
 
 export const mapStateToProps = state => ({
   movies: state.movies,
-  activeUser: state.activeUser
+  activeUser: state.activeUser,
+  favorites: state.favorites
 });
 
 export const mapDispatchToProps = dispatch => ({
-  addFavorites: (movie) => dispatch(addFavorites(movie))
+  addFavorites: (movies) => dispatch(addFavorites(movies)),
+  addMovies: (movies) => dispatch(addMovies(movies)),
 })
 
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Movie);
