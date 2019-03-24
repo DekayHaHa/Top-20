@@ -11,7 +11,7 @@ class MovieHolder extends Component {
       displayFavorites: false,
     };
   }
-  
+
   toggleFavorites = () => {
     this.setState({ displayFavorites: this.state.displayFavorites ? false : true})
   };

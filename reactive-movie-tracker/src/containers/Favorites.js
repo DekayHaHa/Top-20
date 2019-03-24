@@ -7,17 +7,6 @@ import { addMovies, addFavorites } from "../actions/index"
 
 
 class Favorites extends Component {
-  constructor(props) {
-    super(props);
-    
-
-
-
-  }
-
-
-
-
 
 
 }

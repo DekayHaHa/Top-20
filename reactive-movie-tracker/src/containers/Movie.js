@@ -6,15 +6,17 @@ import { retrieveAllFavorites } from "../utilities/api"
 
 const Movie = class extends Component {
   addToFavorites = async () => {
+    const { id, activeUser, title, image, releaseDate, score, overview } = this.props
+ 
     const url = "http://localhost:3000/api/users/favorites/new";
     const movieInfo = {
-      movie_id: this.props.id,
-      user_id: this.props.activeUser.id,
-      title: this.props.title,
-      poster_path: this.props.image,
-      release_date: this.props.releaseDate,
-      vote_average: this.props.score,
-      overview: this.props.overview
+      movie_id: id,
+      user_id: activeUser.id,
+      title: title,
+      poster_path: image,
+      release_date: releaseDate,
+      vote_average: score,
+      overview: overview
     };
     const response = await fetch(url, {
       method: "POST",
@@ -23,8 +25,8 @@ const Movie = class extends Component {
         "Content-Type": "application/json"
       }
     });
-    this.props.activeUser.id && await this.retrieveAllFavFromAPI()
-    
+    activeUser.id && await this.retrieveAllFavFromAPI()
+  
   };
   retrieveAllFavFromAPI = async () => {
     const { activeUser } = this.props
@@ -36,12 +38,14 @@ const Movie = class extends Component {
   }
 
   deleteFromFavorites = async () => {
-    const user_id = this.props.activeUser.id;
-    const movie_id = this.props.id;
+    const { id, activeUser } = this.props
+
+    const user_id = activeUser.id;
+    const movie_id = id;
     const url = `http://localhost:3000/api/users/${user_id}/favorites/${movie_id}`;
     const movieInfo = {
-      movie_id: this.props.id,
-      user_id: this.props.activeUser.id
+      movie_id: id,
+      user_id: activeUser.id
     };
     const response = await fetch(url, {
       method: "DELETE",
@@ -50,7 +54,8 @@ const Movie = class extends Component {
         "Content-Type": "application/json"
       }
     });
-    this.props.activeUser.id && await this.retrieveAllFavFromAPI()
+    activeUser.id && await this.retrieveAllFavFromAPI()
+  
   };
 
   compareFavorites = (results) => {
@@ -67,7 +72,7 @@ const Movie = class extends Component {
   }
 
   render() {
-    const { id, title, image, isFavorite } = this.props;
+    const { id, title, image, isFavorite, activeUser } = this.props;
     let methodToggle;
     let btnVal;
     if (isFavorite) {
@@ -76,14 +81,17 @@ const Movie = class extends Component {
      } else {
       methodToggle = this.addToFavorites
       btnVal = 'Favorite'
-     } 
+     }
+    const favBtn = <button className={`favorite ${isFavorite}`} onClick={methodToggle}>{btnVal}</button>
+    const redirectBtn = <Link to='/login'><button className={`favorite ${isFavorite}`}>Favorite</button></Link>
+    const movieButton = activeUser.id ? favBtn : redirectBtn  
     return (
       <div>
         <Link to={`/movie/${id}`}>
           <h1>{title}</h1>
           <img alt="movie poster" src={image} />
         </Link>
-        <button className={`favorite ${isFavorite}`} onClick={methodToggle}>{btnVal}</button>
+        {movieButton}
       </div>
     );
   }
@@ -99,7 +107,6 @@ export const mapDispatchToProps = dispatch => ({
   addFavorites: (movies) => dispatch(addFavorites(movies)),
   addMovies: (movies) => dispatch(addMovies(movies)),
 })
-
 
 export default connect(
   mapStateToProps,
