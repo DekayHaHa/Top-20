@@ -47,7 +47,7 @@ const Movie = class extends Component {
 
 
   render() {
-		const { id, title, image } = this.props;
+    const { id, title, image, isFavorite } = this.props;
 
     return (
       <div>
@@ -55,7 +55,7 @@ const Movie = class extends Component {
           <h1>{title}</h1>
           <img alt="movie poster" src={image} />
         </Link>
-        <button onClick={this.addToFavorites}>Favorite</button>
+        <button className={isFavorite} onClick={this.addToFavorites}>Favorite</button>
         <button onClick={this.deleteFromFavorites}>Unfavorite</button>
       </div>
     );
