@@ -118,7 +118,7 @@ class Login extends Component {
     const signUpBtnToggle = this.signUpInputs();
     return (
       <div>
-        {this.props.activeUser.id && <Redirect to='/' />}
+        {this.props.activeUser.id > 0 && <Redirect to='/' />}
         {error && <h3>{error}</h3>}
         <form onSubmit={formSubmitMethod}>
           {error && <label>
