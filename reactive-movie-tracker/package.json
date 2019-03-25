@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "install": "^0.12.2",
+    "node-sass": "^4.11.0",
     "npm": "^6.9.0",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",

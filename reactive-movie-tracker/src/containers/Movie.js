@@ -2,12 +2,22 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { addFavorites, addMovies } from "../actions";
-import { retrieveAllFavorites } from "../utilities/api"
+import { retrieveAllFavorites } from "../utilities/api";
+import PropTypes from "prop-types";
+import "../styles/Movie.scss";
 
 const Movie = class extends Component {
   addToFavorites = async () => {
-    const { id, activeUser, title, image, releaseDate, score, overview } = this.props
- 
+    const {
+      id,
+      activeUser,
+      title,
+      image,
+      releaseDate,
+      score,
+      overview
+    } = this.props;
+
     const url = "http://localhost:3000/api/users/favorites/new";
     const movieInfo = {
       movie_id: id,
@@ -18,27 +28,26 @@ const Movie = class extends Component {
       vote_average: score,
       overview: overview
     };
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "POST",
       body: JSON.stringify(movieInfo),
       headers: {
         "Content-Type": "application/json"
       }
     });
-    activeUser.id && await this.retrieveAllFavFromAPI()
-  
+    activeUser.id && (await this.retrieveAllFavFromAPI());
   };
   retrieveAllFavFromAPI = async () => {
-    const { activeUser } = this.props
+    const { activeUser } = this.props;
     const id = activeUser.id;
     const url = `http://localhost:3000/api/users/${id}/favorites`;
-    let results = await retrieveAllFavorites(url)
+    let results = await retrieveAllFavorites(url);
     await this.compareFavorites(results);
-    await this.props.addFavorites(results)
-  }
+    await this.props.addFavorites(results);
+  };
 
   deleteFromFavorites = async () => {
-    const { id, activeUser } = this.props
+    const { id, activeUser } = this.props;
 
     const user_id = activeUser.id;
     const movie_id = id;
@@ -47,28 +56,29 @@ const Movie = class extends Component {
       movie_id: id,
       user_id: activeUser.id
     };
-    const response = await fetch(url, {
+    await fetch(url, {
       method: "DELETE",
       body: JSON.stringify(movieInfo),
       headers: {
         "Content-Type": "application/json"
       }
     });
-    activeUser.id && await this.retrieveAllFavFromAPI()
-  
+    activeUser.id && (await this.retrieveAllFavFromAPI());
   };
 
-  compareFavorites = (results) => {
-    const { movies } = this.props
-    const favIds = results.map(fav => fav.id)
+  compareFavorites = results => {
+    const { movies } = this.props;
+    const favIds = results.map(fav => fav.id);
     const newMovies = movies.map(movie => {
-      return favIds.includes(movie.id) ? { ...movie, isFavorite: true } : {...movie, isFavorite: false}
-    })
-    this.props.addMovies(newMovies)
-  }
+      return favIds.includes(movie.id)
+        ? { ...movie, isFavorite: true }
+        : { ...movie, isFavorite: false };
+    });
+    this.props.addMovies(newMovies);
+  };
 
   componentDidMount() {
-    this.props.activeUser.id && this.retrieveAllFavFromAPI()
+    this.props.activeUser.id && this.retrieveAllFavFromAPI();
   }
 
   render() {
@@ -76,15 +86,23 @@ const Movie = class extends Component {
     let methodToggle;
     let btnVal;
     if (isFavorite) {
-      methodToggle = this.deleteFromFavorites
-      btnVal = 'Unfavorite'
-     } else {
-      methodToggle = this.addToFavorites
-      btnVal = 'Favorite'
-     }
-    const favBtn = <button className={`favorite ${isFavorite}`} onClick={methodToggle}>{btnVal}</button>
-    const redirectBtn = <Link to='/login'><button className={`favorite ${isFavorite}`}>Favorite</button></Link>
-    const movieButton = activeUser.id ? favBtn : redirectBtn  
+      methodToggle = this.deleteFromFavorites;
+      btnVal = "Unfavorite";
+    } else {
+      methodToggle = this.addToFavorites;
+      btnVal = "Favorite";
+    }
+    const favBtn = (
+      <button className={`favorite ${isFavorite}`} onClick={methodToggle}>
+        {btnVal}
+      </button>
+    );
+    const redirectBtn = (
+      <Link to="/login">
+        <button className={`favorite ${isFavorite}`}>Favorite</button>
+      </Link>
+    );
+    const movieButton = activeUser.id ? favBtn : redirectBtn;
     return (
       <div>
         <Link to={`/movie/${id}`}>
@@ -97,6 +115,12 @@ const Movie = class extends Component {
   }
 };
 
+Movie.propTypes = {
+  movies: PropTypes.array,
+  activeUser: PropTypes.object,
+  favorites: PropTypes.array
+};
+
 export const mapStateToProps = state => ({
   movies: state.movies,
   activeUser: state.activeUser,
@@ -104,9 +128,9 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  addFavorites: (movies) => dispatch(addFavorites(movies)),
-  addMovies: (movies) => dispatch(addMovies(movies)),
-})
+  addFavorites: movies => dispatch(addFavorites(movies)),
+  addMovies: movies => dispatch(addMovies(movies))
+});
 
 export default connect(
   mapStateToProps,

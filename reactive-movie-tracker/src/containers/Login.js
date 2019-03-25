@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import { fetchData } from "../utilities/api";
 import { connect } from "react-redux";
 import { signInUser } from "../actions";
-import { Redirect} from "react-router-dom"
+import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
+import "../styles/Login.scss";
 
 class Login extends Component {
   constructor(props) {
@@ -15,7 +17,7 @@ class Login extends Component {
     };
   }
 
-  loginFetch = () => { };
+  loginFetch = () => {};
 
   handleSubmit = event => {
     event.preventDefault();
@@ -23,7 +25,7 @@ class Login extends Component {
     fetchData(url).then(result => console.log(result.data[0].name));
   };
 
-  handlePost = async (e) => {
+  handlePost = async e => {
     e.preventDefault();
     const url = "http://localhost:3000/api/users/new";
     const userInfo = {
@@ -42,19 +44,22 @@ class Login extends Component {
         }
       });
       const data = await response.json();
-      if (data.error){
-        this.setState({error: 'That email is already taken'})
+      if (data.error) {
+        this.setState({ error: "That email is already taken" });
       } else {
-        await this.props.signInUser(data.id, this.state.name)
+        await this.props.signInUser(data.id, this.state.name);
       }
     } catch (error) {
-      this.setState({
-        error: `Could Not Create a New User at This Time.`
-      }, () => console.log(this.state.error));
+      this.setState(
+        {
+          error: `Could Not Create a New User at This Time.`
+        },
+        () => console.log(this.state.error)
+      );
     }
   };
 
-  handleSignIn = async (e) => {
+  handleSignIn = async e => {
     e.preventDefault();
     const url = "http://localhost:3000/api/users";
     const userInfo = {
@@ -72,7 +77,7 @@ class Login extends Component {
         }
       });
       const data = await response.json();
-      this.props.signInUser(data.data.id, data.data.name)
+      this.props.signInUser(data.data.id, data.data.name);
     } catch (error) {
       this.setState({
         error: `Username/password does not match.`
@@ -100,38 +105,36 @@ class Login extends Component {
   };
 
   signInInputs = () => {
-    const { email, password } = this.state
-    return email && password ? false : true 
-  }
+    const { email, password } = this.state;
+    return email && password ? false : true;
+  };
   signUpInputs = () => {
-    const { email, password, name } = this.state
-    return email && password && name ? false : true
-  }
+    const { email, password, name } = this.state;
+    return email && password && name ? false : true;
+  };
   render() {
-    const { email, password, name, error } = this.state
-    let formSubmitMethod = this.handleSignIn
+    const { email, password, name, error } = this.state;
+    let formSubmitMethod = this.handleSignIn;
     if (error) {
-      formSubmitMethod = this.handlePost
+      formSubmitMethod = this.handlePost;
     }
     const signInBtnToggle = this.signInInputs();
-   
+
     const signUpBtnToggle = this.signUpInputs();
     return (
       <div>
-        {this.props.activeUser.id > 0 && <Redirect to='/' />}
+        {this.props.activeUser.id > 0 && <Redirect to="/" />}
         {error && <h3>{error}</h3>}
         <form onSubmit={formSubmitMethod}>
-          {error && <label>
-            Name:
-                <input
-              type="text"
-              value={name}
-              onChange={this.handleNameInput}
-            />
-          </label>}
+          {error && (
+            <label>
+              Name:
+              <input type="text" value={name} onChange={this.handleNameInput} />
+            </label>
+          )}
           <label>
             Password:
-              <input
+            <input
               type="text"
               value={password}
               onChange={this.handlePasswordInput}
@@ -139,14 +142,16 @@ class Login extends Component {
           </label>
           <label>
             Email:
-              <input
-              type="text"
-              value={email}
-              onChange={this.handleEmailInput}
-            />
+            <input type="text" value={email} onChange={this.handleEmailInput} />
           </label>
-          <button disabled={signInBtnToggle} onClick={this.handleSignIn}>Sign In</button>
-          {error && <button disabled={signUpBtnToggle} onClick={this.handlePost}>Sign Up NOW!</button>}
+          <button disabled={signInBtnToggle} onClick={this.handleSignIn}>
+            Sign In
+          </button>
+          {error && (
+            <button disabled={signUpBtnToggle} onClick={this.handlePost}>
+              Sign Up NOW!
+            </button>
+          )}
         </form>
       </div>
     );
@@ -154,11 +159,15 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  activeUser: PropTypes.object
+};
+
 export const mapStateToProps = state => ({
   activeUser: state.activeUser
 });
 
-export const mapDispatchtoProps = (dispatch) => ({
+export const mapDispatchtoProps = dispatch => ({
   signInUser: (id, name) => dispatch(signInUser(id, name))
 });
 
