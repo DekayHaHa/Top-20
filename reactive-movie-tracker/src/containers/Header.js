@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 import { signInUser, addFavorites } from "../actions/index";
+import PropTypes from "prop-types";
+import "../styles/Header.scss";
 
 const Header = class extends Component {
   clearUserData = () => {
@@ -22,6 +23,10 @@ const Header = class extends Component {
       </div>
     );
   }
+};
+
+Header.propTypes = {
+  activeUser: PropTypes.object
 };
 
 export const mapStateToProps = state => ({
