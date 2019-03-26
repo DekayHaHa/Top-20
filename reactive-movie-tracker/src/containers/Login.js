@@ -147,7 +147,7 @@ export class Login extends Component {
             Sign In
           </button>
           {error && (
-            <button disabled={signUpBtnToggle} onClick={this.handlePost}>
+            <button className='signUp-btn'disabled={signUpBtnToggle} onClick={this.handlePost}>
               Sign Up NOW!
             </button>
           )}
