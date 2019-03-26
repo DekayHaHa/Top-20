@@ -5,10 +5,10 @@ import { signInUser, addFavorites } from "../actions/index";
 import PropTypes from "prop-types";
 import "../styles/Header.scss";
 
-const Header = class extends Component {
+export const Header = class extends Component {
   clearUserData = () => {
     this.props.signInUser(0, "")
-     this.props.addFavorites([]);
+    this.props.addFavorites([]);
   };
 
   render() {

@@ -9,7 +9,6 @@ describe("MovieHolder", () => {
 		wrapper = shallow(<MovieHolder />);
 	});
 
-
 	it("should match the snapshot with all data passed in correctly", () => {
 		expect(wrapper).toMatchSnapshot();
 	});

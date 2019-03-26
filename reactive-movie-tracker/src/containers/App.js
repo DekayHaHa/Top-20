@@ -13,7 +13,7 @@ import { PageNotFound } from "../components/PageNotFound";
 import PropTypes from "prop-types";
 import "../styles/App.scss";
 
-class App extends Component {
+export class App extends Component {
   componentDidMount() {
     this.getMovieData();
   }
