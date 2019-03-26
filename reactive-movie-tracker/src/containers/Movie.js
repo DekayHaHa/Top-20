@@ -82,34 +82,38 @@ export const Movie = class extends Component {
   }
 
   render() {
-    const { id, title, image, isFavorite, activeUser } = this.props;
+    const { id, image, isFavorite, activeUser } = this.props;
     let methodToggle;
     let btnVal;
+    let color;
     if (isFavorite) {
       methodToggle = this.deleteFromFavorites;
       btnVal = "Unfavorite";
+      color = '#ffd700'
     } else {
       methodToggle = this.addToFavorites;
       btnVal = "Favorite";
+      color = '#808080'
     }
     const favBtn = (
-      <button className={`favorite ${isFavorite}`} onClick={methodToggle}>
-        {btnVal}
+      <button className={`favorite-btn ${isFavorite}`} onClick={methodToggle}>
+        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill={color}><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z" /></svg>
       </button>
     );
     const redirectBtn = (
       <Link to="/login">
-        <button className={`favorite ${isFavorite}`}>Favorite</button>
+        <button className={`favorite-btn ${isFavorite}`}><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill={color}><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z" /></svg></button>
       </Link>
     );
     const movieButton = activeUser.id ? favBtn : redirectBtn;
     return (
-      <div>
-        <Link to={`/movie/${id}`}>
-          <h1>{title}</h1>
-          <img alt="movie poster" src={image} />
-        </Link>
+      <div className='movie'>
         {movieButton}
+        <div>
+          <Link to={`/movie/${id}`}>
+            <img alt="movie poster" src={image} />
+          </Link>
+        </div>
       </div>
     );
   }

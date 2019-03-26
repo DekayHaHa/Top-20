@@ -15,3 +15,5 @@ export const retrieveAllFavorites = async url => {
     return await cleanFavorites(data.data);
   }
 };
+
+
