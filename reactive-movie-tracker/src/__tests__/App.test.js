@@ -5,28 +5,50 @@ import {fetchData} from '../utilities/api'
 import { mockReduxFavs, mockReduxMovies, mockReduxUser } from '../utilities/mockTestData'
 import { MovieDetails } from '../components/MovieDetails'
 import Movie from '../containers/Movie';
+import { cleanMovies } from '../utilities/cleaner'
+jest.mock('../utilities/api');
+jest.mock('../utilities/cleaner');
 
 describe("App", () => {
   let wrapper;
-
+  const mockFunc = jest.fn()
   beforeEach(() => {
     wrapper = shallow(<App 
+      addMovies={mockFunc}
       movies={mockReduxMovies}
       activeUser={mockReduxUser}
       favorites={mockReduxFavs}
     />);
   });
 
-
   it("should match the snapshot with all data passed in correctly", () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it.skip("should add movie data to state", () => {
+  it("should call fetch data", async () => {
+    //setup
+    fetchData.mockImplementationOnce(() => ({results: mockReduxMovies}))
+    //execution 
+    await wrapper.instance().getMovieData()
+    //expectation
+    expect(fetchData).toBeCalled()
+  });
+
+  it("should call cleanMovies", () => {
+    //setup
+    cleanMovies.mockImplementationOnce(() => mockReduxMovies)
+    //execution 
+    wrapper.instance().getMovieData()
+    //expectation
+    expect(cleanMovies).toBeCalled()
+  });
+
+  it("should call addMovies on props", () => {
     //setup
     //execution 
     wrapper.instance().getMovieData()
     //expectation
+    expect(wrapper.instance().props.addMovies).toBeCalled()
   });
 
   it("should render movie based on id", () => {

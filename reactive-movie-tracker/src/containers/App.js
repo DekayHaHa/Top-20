@@ -19,9 +19,13 @@ export class App extends Component {
   }
   getMovieData = async () => {
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1`;
-    const response = await fetchData(url);
-    const finalData = cleanMovies(response.results);
-    this.props.addMovies(finalData);
+    try {
+      const response = await fetchData(url);
+      const finalData = cleanMovies(response.results);
+      this.props.addMovies(finalData);
+    } catch(error) {
+      //finish out
+    }
   };
   findMovieToRender = id => {
     const MovieToRender = this.props.movies.find(movie => movie.id === id);

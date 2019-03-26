@@ -13,6 +13,12 @@ describe("Login", () => {
 			activeUser={mockReduxUser}
 			favorites={mockReduxFavs}
 		/>);
+		fetch = jest.fn(() => {
+			return Promise.resolve({
+				ok: true,
+				json: jest.fn(() => ({ id: 2 }))
+			});
+		});
 	});
 
 	it("should match the snapshot with all data passed in correctly", () => {
@@ -21,8 +27,24 @@ describe("Login", () => {
 
 	it.skip("Should add user to back end", () => {
 		//setup
+		const url = "http://localhost:3000/api/users/new";
+		const mockUserInputs = {
+			name: 'steve',
+			password: 'imgreat',
+			email: 'myemail'
+		}
+		const mockOptionObj = {
+			method: "POST",
+			body: JSON.stringify({...mockUserInputs, id: 1}),
+			headers: {
+				"Content-Type": "application/json"
+			}}
+		wrapper.setState({...mockUserInputs})
+
 		//execution
+		wrapper.instance().handlePost()
 		//expectation
+		expect(fetch).toBeCalledWith(url, mockOptionObj)
 	});
 	it.skip("Should sign in user", () => {
 		//setup
