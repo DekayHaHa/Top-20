@@ -1,7 +1,20 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Movie should match the snapshot with all data passed in correctly 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<div>
+  <Link
+    to="/movie/undefined"
+  >
+    <h1 />
+    <img
+      alt="movie poster"
+    />
+  </Link>
+  <button
+    className="favorite undefined"
+    onClick={[Function]}
+  >
+    Favorite
+  </button>
+</div>
 `;

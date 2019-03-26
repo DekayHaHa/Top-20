@@ -21,16 +21,22 @@ describe("Header", () => {
 		expect(wrapper).toMatchSnapshot();
 	});
 
-	it("should clear user data", () => {
+	it("should call signInUser & addFavorites", () => {
 		//setup
-		// const instance = wrapper.instance()
-		
-		// jest.spyOn(wrapper, 'signInUser')
 		//execution
 		wrapper.instance().clearUserData()
 		//expectation
 		expect(wrapper.instance().props.signInUser).toBeCalled()
 		expect(wrapper.instance().props.addFavorites).toBeCalled()
 	});
-
+	it.skip("should map state to props", () => {
+		//setup
+		//execution
+		//expectation
+	});
+	it.skip("should map dispatch to props", () => {
+		//setup
+		//execution
+		//expectation
+	});
 });

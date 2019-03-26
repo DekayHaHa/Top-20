@@ -5,7 +5,7 @@ import { addMovies } from "../actions/index";
 import PropTypes from "prop-types";
 import "../styles/MovieHolder.scss";
 
-class MovieHolder extends Component {
+export class MovieHolder extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +27,7 @@ class MovieHolder extends Component {
       activeUser.id && displayFavorites ? favorites : movies;
     return (
       <div>
-        <button onClick={this.toggleFavorites}>{btnText}</button>
+        <button className='display-favorites' onClick={this.toggleFavorites}>{btnText}</button>
         {moviesToRender.map(movie => (
           <Movie key={movie.id} {...movie} />
         ))}

@@ -24,7 +24,6 @@ describe("App", () => {
 
   it.skip("should add movie data to state", () => {
     //setup
-
     //execution 
     wrapper.instance().getMovieData()
     //expectation
@@ -47,5 +46,14 @@ describe("App", () => {
     //expectation
     expect(results).toEqual(expected)
   });
-
+  it.skip("should map state to props", () => {
+    //setup
+    //execution
+    //expectation
+  });
+  it.skip("should map dispatch to props", () => {
+    //setup
+    //execution
+    //expectation
+  });
 });

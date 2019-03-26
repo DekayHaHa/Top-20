@@ -15,7 +15,6 @@ describe("Login", () => {
 		/>);
 	});
 
-
 	it("should match the snapshot with all data passed in correctly", () => {
 		expect(wrapper).toMatchSnapshot();
 	});
@@ -33,27 +32,53 @@ describe("Login", () => {
 	it.skip("Should set state to name input", () => {
 		//setup
 		//execution
+		wrapper.find('.signIn-btn').simulate('click')
+		wrapper.update()
+		wrapper.find('input.name-input').simulate('change', { target: { value: 'Hey' } });
 		//expectation
+		expect(wrapper.state('name')).toEqual('Hey')
 	});
-	it.skip("Should set state to password input", () => {
+	it("Should set state to password input", () => {
 		//setup
 		//execution
+		wrapper.find('input.password-input').simulate('change', { target: { value: 'Hey' } });
 		//expectation
+		expect(wrapper.state('password')).toEqual('Hey')
 	});
-	it.skip("Should set state to email input", () => {
+	it("Should set state to email input", () => {
 		//setup
 		//execution
+		wrapper.find('input.email-input').simulate('change', { target: { value: 'Hey' } });
 		//expectation
+		expect(wrapper.state('email')).toEqual('Hey')
 	});
-	it.skip("Should check sign in inputs", () => {
+	it("Should check sign in inputs", () => {
 		//setup
+		expect(wrapper.instance().signInInputs()).toEqual(true)
+		const mockInputs = {email: 'hey', password: 'hey', name: 'hey'}
 		//execution
+		wrapper.instance().setState(mockInputs)
 		//expectation
-	});
-	it.skip("Should check sign up inputs", () => {
-		//setup
-		//execution
-		//expectation
-	});
+		expect(wrapper.instance().signInInputs()).toEqual(false)
 
+	});
+	it("Should check sign up inputs", () => {
+		//setup
+		expect(wrapper.instance().signUpInputs()).toEqual(true)
+		const mockInputs = { email: 'hey', password: 'hey', name: 'hey' }
+		//execution
+		wrapper.instance().setState(mockInputs)
+		//expectation
+		expect(wrapper.instance().signUpInputs()).toEqual(false)
+	});
+	it.skip("should map state to props", () => {
+		//setup
+		//execution
+		//expectation
+	});
+	it.skip("should map dispatch to props", () => {
+		//setup
+		//execution
+		//expectation
+	});
 });
