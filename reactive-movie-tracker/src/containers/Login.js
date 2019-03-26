@@ -111,41 +111,41 @@ export class Login extends Component {
     return (
       <div className="Login">
         {this.props.activeUser.id > 0 && <Redirect to="/" />}
-        {error && <h3>{error}</h3>}
+        {error && <h3 className="wrong-password">{error}</h3>}
         <form className="form" onSubmit={formSubmitMethod}>
           {error && (
-            <label>
-              Name:
+            <label className="label">
               <input
                 className='name-input'
+                placeholder='Full Name'
                 type="text"
                 value={name}
                 onChange={this.handleNameInput} />
             </label>
           )}
-          <label>
-            Email:      
+          <label label className="label">    
             <input
               className='email-input'
+              placeholder='Email Address'
               type="text"
               value={email}
               onChange={this.handleEmailInput} />
           </label>
-          <label>
-            Password:
+          <label label className="label">
             <input
               className='password-input'
+              placeholder='Password'
               type="text"
               value={password}
               onChange={this.handlePasswordInput}
             />
           </label>
           
-          <button className='signIn-btn' disabled={signInBtnToggle} onClick={this.handleSignIn}>
+          <button className='btn signIn-btn' disabled={signInBtnToggle} onClick={this.handleSignIn}>
             Sign In
           </button>
           {error && (
-            <button className='signUp-btn'disabled={signUpBtnToggle} onClick={this.handlePost}>
+            <button className='btn signUp-btn'disabled={signUpBtnToggle} onClick={this.handlePost}>
               Sign Up NOW!
             </button>
           )}

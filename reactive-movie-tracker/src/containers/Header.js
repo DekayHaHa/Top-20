@@ -17,9 +17,9 @@ export const Header = class extends Component {
     const userTitle = `Welcome Back ${activeUser.name}!`
     const noUserTitle = 'Movie Tracker'
     return (
-      <div>
-        <h2>{activeUser.id ? userTitle : noUserTitle}</h2>
+      <div className="Header">
         <Link to="/login"><button disabled={toggleBtn}>User Sign In</button></Link>
+        <h2>{activeUser.id ? userTitle : noUserTitle}</h2>
         <Link to="/login">
           <button disabled={!toggleBtn} onClick={this.clearUserData}>Sign Out?</button>
         </Link>
