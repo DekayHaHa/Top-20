@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-const MovieDetails = class extends Component {
+export const MovieDetails = class extends Component {
 	render() {
 		const {overview, score, image, title } = this.props
 		return (
@@ -13,5 +13,3 @@ const MovieDetails = class extends Component {
 		);
 	}
 }
-
-export { MovieDetails }
