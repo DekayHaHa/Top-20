@@ -1,26 +1,29 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Login should match the snapshot with all data passed in correctly 1`] = `
-<div>
+<div
+  className="Login"
+>
   <Redirect
     to="/"
   />
   <form
+    className="form"
     onSubmit={[Function]}
   >
     <label>
-      Password:
+      Email:
       <input
-        className="password-input"
+        className="email-input"
         onChange={[Function]}
         type="text"
         value=""
       />
     </label>
     <label>
-      Email:
+      Password:
       <input
-        className="email-input"
+        className="password-input"
         onChange={[Function]}
         type="text"
         value=""
