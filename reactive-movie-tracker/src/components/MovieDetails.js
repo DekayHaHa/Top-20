@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 
 export const MovieDetails = class extends Component {
 	render() {
-		console.log(this.props)
 		const {overview, score, image, title } = this.props
 		return (
 			<div>

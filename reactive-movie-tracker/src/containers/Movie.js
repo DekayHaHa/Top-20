@@ -88,11 +88,9 @@ export const Movie = class extends Component {
     let color;
     if (isFavorite) {
       methodToggle = this.deleteFromFavorites;
-      btnVal = "Unfavorite";
       color = '#ffd700'
     } else {
       methodToggle = this.addToFavorites;
-      btnVal = "Favorite";
       color = '#808080'
     }
     const favBtn = (
