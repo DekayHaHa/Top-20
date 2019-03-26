@@ -1,18 +1,17 @@
-import {cleanFavorites} from './cleaner'
+import { cleanFavorites } from "./cleaner";
 
-export const fetchData = (url) => {
-  return fetch(url)  
+export const fetchData = url => {
+  return fetch(url)
     .then(response => response.json())
-    .catch(error => error.message)
-}
+    .catch(error => error.message);
+};
 
-export const retrieveAllFavorites = async (url) => {
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
-  const data = await response.json();
-  return await cleanFavorites(data.data) 
+export const retrieveAllFavorites = async url => {
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw Error(response.statusText);
+  } else {
+    const data = await response.json();
+    return await cleanFavorites(data.data);
+  }
 };
