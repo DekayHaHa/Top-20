@@ -12,16 +12,28 @@ export const Header = class extends Component {
   };
 
   render() {
-    return (
-      <div>
-        <h2>Welcome Back {this.props.activeUser.name} </h2>
-        <Link to="/login">User Sign In</Link>
+    if(this.props.activeUser.id > 0){
 
-        <Link to="/login">
-          <button onClick={this.clearUserData}>Sign Out?</button>
-        </Link>
-      </div>
-    );
+      return (
+        <div className="Header">
+          <Link to="/login">User Sign In</Link>
+          <h2>Welcome Back {this.props.activeUser.name} </h2>
+          <Link to="/login">
+            <button onClick={this.clearUserData}>Sign Out?</button>
+          </Link>
+        </div>
+      );
+    }else {
+      return (
+        <div className="Header">
+          <Link to="/login">User Sign In</Link>
+          <h2>Movie Tracker</h2>
+          <Link to="/login">
+            <button onClick={this.clearUserData}>Sign Out?</button>
+          </Link>
+        </div>
+      )
+    }
   }
 };
 
