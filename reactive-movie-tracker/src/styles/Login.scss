@@ -1,7 +1,10 @@
 .Login {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
+  width: 400px;
+  margin: 10px auto;
 }
 
 .form {
@@ -11,17 +14,37 @@
   border-style: solid;
   border-radius: 5px;
   border-color: gray;
-  margin-top: 50px;
-  height: 70px;
+  
+  height: 100px;
   background: gray;
-  box-shadow: 20px, 30px black
+  box-shadow: 20px, 30px black;
+  text-align: left;
 }
 
+.label {
+  margin: auto
+}
 
 .email-input {
-  margin: 0px 0px 20px 23px;
+  margin-top: 10px;
 }
 
 .password-input {
-  margin-bottom: 20px;
+  margin: 10px
+ 
+}
+
+.name-input {
+  margin-top: -5px;
+}
+
+.wrong-password {
+  text-align: center;
+  color: white;
+  margin: 100px 0px 0px -10px;
+}
+
+.btn {
+  width: 200px;
+  margin: auto
 }
