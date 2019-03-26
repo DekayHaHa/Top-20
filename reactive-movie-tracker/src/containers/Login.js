@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { fetchData } from "../utilities/api";
 import { connect } from "react-redux";
 import { signInUser } from "../actions";
 import { Redirect } from "react-router-dom";
@@ -45,7 +44,6 @@ export class Login extends Component {
         {
           error: `Could Not Create a New User at This Time.`
         },
-        () => console.log(this.state.error)
       );
     }
   };
@@ -58,7 +56,6 @@ export class Login extends Component {
       password: this.state.password,
       email: this.state.email
     };
-    console.log("fired handleSignIn");
     try {
       const response = await fetch(url, {
         method: "POST",
