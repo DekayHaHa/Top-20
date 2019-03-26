@@ -6,7 +6,7 @@ import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../styles/Login.scss";
 
-class Login extends Component {
+export class Login extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,14 +17,6 @@ class Login extends Component {
     };
   }
 
-  loginFetch = () => {};
-
-  handleSubmit = event => {
-    event.preventDefault();
-    const url = "http://localhost:3000/api/users";
-    fetchData(url).then(result => console.log(result.data[0].name));
-  };
-
   handlePost = async e => {
     e.preventDefault();
     const url = "http://localhost:3000/api/users/new";
@@ -34,7 +26,6 @@ class Login extends Component {
       password: this.state.password,
       email: this.state.email
     };
-    console.log("fired handlePost");
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -82,7 +73,6 @@ class Login extends Component {
       this.setState({
         error: `Username/password does not match.`
       });
-      console.log(this.state.error);
     }
   };
 

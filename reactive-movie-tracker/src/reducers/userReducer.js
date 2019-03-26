@@ -5,6 +5,5 @@ export const signInReducer = (state = {}, action) => {
 			return { id, name}
 		default:
 			return state
-
 	}
 }
