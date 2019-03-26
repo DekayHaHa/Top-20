@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Movie from "./Movie";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { addMovies } from "../actions/index";
 import PropTypes from "prop-types";
@@ -25,9 +26,11 @@ export class MovieHolder extends Component {
     const btnText = displayFavorites ? "Show All" : "Display Favorites";
     const moviesToRender =
       activeUser.id && displayFavorites ? favorites : movies;
+    const userBtn = <button className='display-favorites' onClick={this.toggleFavorites}>{btnText}</button>
+    const nonUserBtn = <Link to='/login'><button>Display Favorites</button></Link>
     return (
       <div>
-        <button className='display-favorites' onClick={this.toggleFavorites}>{btnText}</button>
+        {activeUser.id ? userBtn : nonUserBtn}
         {moviesToRender.map(movie => (
           <Movie key={movie.id} {...movie} />
         ))}

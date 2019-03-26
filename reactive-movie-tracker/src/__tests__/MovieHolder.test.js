@@ -1,7 +1,8 @@
 import React from 'react';
 import { shallow } from "enzyme";
-import { MovieHolder } from '../containers/MovieHolder'
+import { MovieHolder, mapDispatchToProps, mapStateToProps } from '../containers/MovieHolder'
 import { mockReduxFavs, mockReduxMovies, mockReduxUser, mockReduxNewMovies } from '../utilities/mockTestData'
+import { addMovies } from '../actions/index'
 
 
 
@@ -26,14 +27,32 @@ describe("MovieHolder", () => {
 		//expectation
 		expect(wrapper.state('displayFavorites')).toEqual(true)
 	});
-	it.skip("should map state to props", () => {
+	it("should map state to props", () => {
 		//setup
+		const mockStore = {
+			activeUser: { name: 'steve', id: 2 },
+			movies: ['should show'],
+			favorites: ['should show'],
+			bogus: 'value'
+		}
+		const expected = {
+			activeUser: { name: 'steve', id: 2 },
+			movies: ['should show'],
+			favorites: ['should show'],
+		}
 		//execution
+		const mappedProps = mapStateToProps(mockStore)
 		//expectation
+		expect(mappedProps).toEqual(expected)
 	});
-	it.skip("should map dispatch to props", () => {
+	it("should map addMovies to props", () => {
 		//setup
+		const mockDispatch = jest.fn()
+		const actionToDispatch = addMovies(['movies'])
 		//execution
+		const mappedProps = mapDispatchToProps(mockDispatch)
+		mappedProps.addMovies(['movies'])
 		//expectation
+		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
 	});
 });

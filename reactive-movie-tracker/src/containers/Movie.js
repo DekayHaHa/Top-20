@@ -128,8 +128,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
+  addMovies: movies => dispatch(addMovies(movies)),
   addFavorites: movies => dispatch(addFavorites(movies)),
-  addMovies: movies => dispatch(addMovies(movies))
 });
 
 export default connect(

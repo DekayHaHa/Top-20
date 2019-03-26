@@ -12,6 +12,7 @@ export const Header = class extends Component {
   };
 
   render() {
+
     if(this.props.activeUser.id > 0){
 
       return (
@@ -34,6 +35,7 @@ export const Header = class extends Component {
         </div>
       )
     }
+
   }
 };
 
