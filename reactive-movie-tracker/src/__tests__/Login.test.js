@@ -2,8 +2,7 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { Login, mapDispatchtoProps, mapStateToProps} from '../containers/Login'
 import { mockReduxFavs, mockReduxMovies, mockReduxUser } from '../utilities/mockTestData'
-
-
+import { signInUser } from '../actions';
 
 describe("Login", () => {
 	let wrapper;
@@ -25,7 +24,7 @@ describe("Login", () => {
 		expect(wrapper).toMatchSnapshot();
 	});
 
-	it.skip("Should add user to back end", () => {
+	it.skip("Should add user to back end", async () => {
 		//setup
 		const url = "http://localhost:3000/api/users/new";
 		const mockUserInputs = {
@@ -40,16 +39,34 @@ describe("Login", () => {
 				"Content-Type": "application/json"
 			}}
 		wrapper.setState({...mockUserInputs})
-
+		const mockEvent = { target: null }
 		//execution
-		wrapper.instance().handlePost()
+		await wrapper.find('.signUp-btn').simulate('click', mockEvent)
 		//expectation
 		expect(fetch).toBeCalledWith(url, mockOptionObj)
 	});
-	it.skip("Should sign in user", () => {
+
+	it.skip("Should sign in user", async () => {
 		//setup
+		const url = "http://localhost:3000/api/users";
+		const mockUserInputs = {
+			name: 'steve',
+			password: 'imgreat',
+			email: 'myemail'
+		}
+		const mockOptionObj = {
+			method: "POST",
+			body: JSON.stringify({ ...mockUserInputs, id: 1 }),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		}
+		wrapper.setState({ ...mockUserInputs })
+		const mockEvent = { target: null }
 		//execution
+		await wrapper.find('.signIn-btn').simulate('click', mockEvent)
 		//expectation
+		expect(fetch).toBeCalledWith(url, mockOptionObj)
 	});
 	it.skip("Should set state to name input", () => {
 		//setup
@@ -93,14 +110,27 @@ describe("Login", () => {
 		//expectation
 		expect(wrapper.instance().signUpInputs()).toEqual(false)
 	});
-	it.skip("should map state to props", () => {
+	it("should map state to props", () => {
 		//setup
+		const mockStore = { 
+			activeUser: { name: 'steve', id: 2},
+			movies: ['should not show']}
+		const expected = {
+			activeUser: { name: 'steve', id: 2 }
+		}
 		//execution
+		const mappedProps = mapStateToProps(mockStore)
 		//expectation
+		expect(mappedProps).toEqual(expected)
 	});
-	it.skip("should map dispatch to props", () => {
+	it("should map dispatch to props", () => {
 		//setup
+		const mockDispatch = jest.fn()
+		const actionToDispatch = signInUser(2, 'steve')
 		//execution
+		const mappedProps = mapDispatchtoProps(mockDispatch)
+		mappedProps.signInUser(2, 'steve')
 		//expectation
+		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
 	});
 });

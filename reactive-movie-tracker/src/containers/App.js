@@ -20,6 +20,7 @@ export class App extends Component {
   getMovieData = async () => {
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1`;
     try {
+      //isloading
       const response = await fetchData(url);
       const finalData = cleanMovies(response.results);
       this.props.addMovies(finalData);

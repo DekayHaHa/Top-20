@@ -6,6 +6,7 @@ import { mockReduxFavs, mockReduxMovies, mockReduxUser } from '../utilities/mock
 import { MovieDetails } from '../components/MovieDetails'
 import Movie from '../containers/Movie';
 import { cleanMovies } from '../utilities/cleaner'
+import { addMovies } from '../actions/index'
 jest.mock('../utilities/api');
 jest.mock('../utilities/cleaner');
 
@@ -68,14 +69,30 @@ describe("App", () => {
     //expectation
     expect(results).toEqual(expected)
   });
-  it.skip("should map state to props", () => {
+  it("should map state to props", () => {
     //setup
+    const mockStore = {
+      activeUser: { name: 'steve', id: 2 },
+      movies: ['should show'],
+      favorites: ['should not show']
+    }
+    const expected = {
+      activeUser: { name: 'steve', id: 2 },
+      movies: ['should show'],      
+    }
     //execution
+    const mappedProps = mapStateToProps(mockStore)
     //expectation
+    expect(mappedProps).toEqual(expected)
   });
-  it.skip("should map dispatch to props", () => {
+  it("should map dispatch to props", () => {
     //setup
+    const mockDispatch = jest.fn()
+    const actionToDispatch = addMovies(['movies'])
     //execution
+    const mappedProps = mapDispatchtoProps(mockDispatch)
+    mappedProps.addMovies(['movies'])
     //expectation
+    expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
   });
 });
