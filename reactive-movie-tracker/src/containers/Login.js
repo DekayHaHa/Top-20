@@ -119,12 +119,17 @@ export class Login extends Component {
           {error && (
             <label>
               Name:
-              <input type="text" value={name} onChange={this.handleNameInput} />
+              <input
+                className='name-input'
+                type="text"
+                value={name}
+                onChange={this.handleNameInput} />
             </label>
           )}
           <label>
             Password:
             <input
+              className='password-input'
               type="text"
               value={password}
               onChange={this.handlePasswordInput}
@@ -132,9 +137,13 @@ export class Login extends Component {
           </label>
           <label>
             Email:
-            <input type="text" value={email} onChange={this.handleEmailInput} />
+            <input
+              className='email-input'
+              type="text"
+              value={email}
+              onChange={this.handleEmailInput} />
           </label>
-          <button disabled={signInBtnToggle} onClick={this.handleSignIn}>
+          <button className='signIn-btn' disabled={signInBtnToggle} onClick={this.handleSignIn}>
             Sign In
           </button>
           {error && (

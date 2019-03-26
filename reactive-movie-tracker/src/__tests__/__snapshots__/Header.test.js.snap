@@ -1,7 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Header should match the snapshot with all data passed in correctly 1`] = `
-
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<div>
+  <h2>
+    Welcome Back 
+    Jeff
+     
+  </h2>
+  <Link
+    to="/login"
+  >
+    User Sign In
+  </Link>
+  <Link
+    to="/login"
+  >
+    <button
+      onClick={[Function]}
+    >
+      Sign Out?
+    </button>
+  </Link>
+</div>
+`;

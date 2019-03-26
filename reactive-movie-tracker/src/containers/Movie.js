@@ -6,7 +6,7 @@ import { retrieveAllFavorites } from "../utilities/api";
 import PropTypes from "prop-types";
 import "../styles/Movie.scss";
 
-const Movie = class extends Component {
+export const Movie = class extends Component {
   addToFavorites = async () => {
     const {
       id,
@@ -66,9 +66,9 @@ const Movie = class extends Component {
     activeUser.id && (await this.retrieveAllFavFromAPI());
   };
 
-  compareFavorites = results => {
+  compareFavorites = favorites => {
     const { movies } = this.props;
-    const favIds = results.map(fav => fav.id);
+    const favIds = favorites.map(fav => fav.id);
     const newMovies = movies.map(movie => {
       return favIds.includes(movie.id)
         ? { ...movie, isFavorite: true }

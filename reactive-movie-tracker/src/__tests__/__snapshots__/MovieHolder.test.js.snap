@@ -1,7 +1,42 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`MovieHolder should match the snapshot with all data passed in correctly 1`] = `
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<div>
+  <button
+    className="display-favorites"
+    onClick={[Function]}
+  >
+    Display Favorites
+  </button>
+  <Connect(Movie)
+    id={166428}
+    image="www.reddit.com"
+    isFavorite={false}
+    key="166428"
+    overview="Big Blue House"
+    releaseDate="2019-01-03"
+    score={7.8}
+    title="Kung Fu"
+  />
+  <Connect(Movie)
+    id={166428}
+    image="www.reddit.com"
+    isFavorite={false}
+    key="166428"
+    overview="Big Blue House"
+    releaseDate="2015-01-03"
+    score={7.8}
+    title="Kung Fu"
+  />
+  <Connect(Movie)
+    id={123455}
+    image="www.reddit.com"
+    isFavorite={false}
+    key="123455"
+    overview="Big Blue House"
+    releaseDate="2017-01-03"
+    score={9}
+    title="Spider Man"
+  />
+</div>
 `;

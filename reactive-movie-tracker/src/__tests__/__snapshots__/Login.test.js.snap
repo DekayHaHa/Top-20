@@ -1,7 +1,38 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Login should match the snapshot with all data passed in correctly 1`] = `
-
-<ContextConsumer>
-  <Component />
-</ContextConsumer>
+<div>
+  <Redirect
+    to="/"
+  />
+  <form
+    onSubmit={[Function]}
+  >
+    <label>
+      Password:
+      <input
+        className="password-input"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </label>
+    <label>
+      Email:
+      <input
+        className="email-input"
+        onChange={[Function]}
+        type="text"
+        value=""
+      />
+    </label>
+    <button
+      className="signIn-btn"
+      disabled={true}
+      onClick={[Function]}
+    >
+      Sign In
+    </button>
+  </form>
+</div>
+`;
