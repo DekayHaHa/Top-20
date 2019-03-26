@@ -31,9 +31,11 @@ export class MovieHolder extends Component {
     return (
       <div>
         {activeUser.id ? userBtn : nonUserBtn}
+        <div className='movie-holder'>
         {moviesToRender.map(movie => (
           <Movie key={movie.id} {...movie} />
         ))}
+        </div>
       </div>
     );
   }

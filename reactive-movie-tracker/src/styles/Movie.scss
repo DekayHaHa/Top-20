@@ -1,0 +1,30 @@
+.movie {
+	width: 33%;
+	border: 1px solid black;
+	margin: 20px 0px;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	padding: 10px;
+}
+
+.movie-title {
+	text-align: center;
+	margin: 0px;
+}
+
+img {
+	width: 100%;
+}
+
+.favorite-btn {
+	// width: 65px;
+	// height: 65px;
+	position: absolute;
+	top: 14px;
+	left: 10px;
+	background: none;
+	border: none;
+	// background-image: url('./iconmonstr-star-6.svg')
+}
