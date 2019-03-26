@@ -1,0 +1,27 @@
+.Login {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  border-style: solid;
+  border-radius: 5px;
+  border-color: gray;
+  margin-top: 50px;
+  height: 70px;
+  background: gray;
+  box-shadow: 20px, 30px black
+}
+
+
+.email-input {
+  margin: 0px 0px 20px 23px;
+}
+
+.password-input {
+  margin-bottom: 20px;
+}

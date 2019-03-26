@@ -109,10 +109,10 @@ export class Login extends Component {
 
     const signUpBtnToggle = this.signUpInputs();
     return (
-      <div>
+      <div className="Login">
         {this.props.activeUser.id > 0 && <Redirect to="/" />}
         {error && <h3>{error}</h3>}
-        <form onSubmit={formSubmitMethod}>
+        <form className="form" onSubmit={formSubmitMethod}>
           {error && (
             <label>
               Name:
@@ -124,6 +124,14 @@ export class Login extends Component {
             </label>
           )}
           <label>
+            Email:      
+            <input
+              className='email-input'
+              type="text"
+              value={email}
+              onChange={this.handleEmailInput} />
+          </label>
+          <label>
             Password:
             <input
               className='password-input'
@@ -132,14 +140,7 @@ export class Login extends Component {
               onChange={this.handlePasswordInput}
             />
           </label>
-          <label>
-            Email:
-            <input
-              className='email-input'
-              type="text"
-              value={email}
-              onChange={this.handleEmailInput} />
-          </label>
+          
           <button className='signIn-btn' disabled={signInBtnToggle} onClick={this.handleSignIn}>
             Sign In
           </button>
