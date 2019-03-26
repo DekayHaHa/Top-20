@@ -12,30 +12,19 @@ export const Header = class extends Component {
   };
 
   render() {
-
-    if(this.props.activeUser.id > 0){
-
-      return (
-        <div className="Header">
-          <Link to="/login">User Sign In</Link>
-          <h2>Welcome Back {this.props.activeUser.name} </h2>
-          <Link to="/login">
-            <button onClick={this.clearUserData}>Sign Out?</button>
-          </Link>
-        </div>
-      );
-    }else {
-      return (
-        <div className="Header">
-          <Link to="/login">User Sign In</Link>
-          <h2>Movie Tracker</h2>
-          <Link to="/login">
-            <button onClick={this.clearUserData}>Sign Out?</button>
-          </Link>
-        </div>
-      )
-    }
-
+    const { activeUser } = this.props
+    const toggleBtn = activeUser.id ? true : false
+    const userTitle = `Welcome Back ${activeUser.name}!`
+    const noUserTitle = 'Movie Tracker'
+    return (
+      <div>
+        <h2>{activeUser.id ? userTitle : noUserTitle}</h2>
+        <Link to="/login"><button disabled={toggleBtn}>User Sign In</button></Link>
+        <Link to="/login">
+          <button disabled={!toggleBtn} onClick={this.clearUserData}>Sign Out?</button>
+        </Link>
+      </div>
+    );
   }
 };
 
