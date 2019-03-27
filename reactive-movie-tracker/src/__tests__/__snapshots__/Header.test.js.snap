@@ -7,17 +7,20 @@ exports[`Header should match the snapshot with all data passed in correctly 1`] 
   <Link
     to="/login"
   >
-    User Sign In
+    <button
+      disabled={true}
+    >
+      User Sign In
+    </button>
   </Link>
   <h2>
-    Welcome Back 
-    Jeff
-     
+    Welcome Back Jeff!
   </h2>
   <Link
     to="/login"
   >
     <button
+      disabled={false}
       onClick={[Function]}
     >
       Sign Out?

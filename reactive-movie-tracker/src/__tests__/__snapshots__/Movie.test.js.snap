@@ -1,20 +1,33 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Movie should match the snapshot with all data passed in correctly 1`] = `
-<div>
-  <Link
-    to="/movie/undefined"
-  >
-    <h1 />
-    <img
-      alt="movie poster"
-    />
-  </Link>
+<div
+  className="movie"
+>
   <button
-    className="favorite undefined"
+    className="favorite-btn undefined"
     onClick={[Function]}
   >
-    Favorite
+    <svg
+      fill="#808080"
+      height="50"
+      viewBox="0 0 24 24"
+      width="50"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z"
+      />
+    </svg>
   </button>
+  <div>
+    <Link
+      to="/movie/undefined"
+    >
+      <img
+        alt="movie poster"
+      />
+    </Link>
+  </div>
 </div>
 `;

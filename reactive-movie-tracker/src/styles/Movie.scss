@@ -27,4 +27,8 @@ img {
 	background: none;
 	border: none;
 	// background-image: url('./iconmonstr-star-6.svg')
+
+	&:hover {
+    background: lightseagreen;
+  }
 }

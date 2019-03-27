@@ -20,7 +20,7 @@ describe("cleanMovies", () => {
     overview : "Fishman does stuff",
     score : 6.9,
     id : 2,
-    isFavorite: true,
+    isFavorite: false,
     releaseDate : "September 16th"
 
 
@@ -51,7 +51,7 @@ describe("cleanFavorties", () => {
     overview : "Fishman does stuff",
     score : 6.9,
     id : 2,
-    isFavorite: false,
+    isFavorite: true,
     releaseDate : "September 16th"
 
 

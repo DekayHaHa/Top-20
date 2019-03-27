@@ -11,26 +11,32 @@ exports[`Login should match the snapshot with all data passed in correctly 1`] =
     className="form"
     onSubmit={[Function]}
   >
-    <label>
-      Email:
+    <label
+      className="label"
+      label={true}
+    >
       <input
         className="email-input"
         onChange={[Function]}
+        placeholder="Email Address"
         type="text"
         value=""
       />
     </label>
-    <label>
-      Password:
+    <label
+      className="label"
+      label={true}
+    >
       <input
         className="password-input"
         onChange={[Function]}
+        placeholder="Password"
         type="text"
         value=""
       />
     </label>
     <button
-      className="signIn-btn"
+      className="btn signIn-btn"
       disabled={true}
       onClick={[Function]}
     >

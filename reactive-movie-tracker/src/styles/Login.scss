@@ -15,7 +15,7 @@
   border-radius: 5px;
   border-color: gray;
   
-  height: 100px;
+  height: 15em;
   background: gray;
   box-shadow: 20px, 30px black;
   text-align: left;
@@ -39,12 +39,15 @@
 }
 
 .wrong-password {
-  text-align: center;
   color: white;
-  margin: 100px 0px 0px -10px;
+  text-align: center;
+  margin: 0px auto 0px auto;
+  background:salmon;
+  width: 100%;
+  border-radius: 5px;
 }
 
-.btn {
+.signIn-btn {
   width: 200px;
-  margin: auto
+  margin: 10px auto;
 }
