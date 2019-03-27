@@ -5,11 +5,13 @@ export const MovieDetails = class extends Component {
 	render() {
 		const {overview, score, image, title } = this.props
 		return (
-			<div className="MovieDetails">
-				<h1 className="movie-details-title">{title}</h1>
-				<p className="movie-score">Score: {score}</p>
-				<img className="movie-poster" alt='movie poster' src={image} />
-				<p className="overview">{overview}</p>
+			<div className="movie-details">
+				<img className="img-details" alt='movie poster' src={image} />
+				<div className='details-container'>
+				<h1 className="title-details">{title}</h1>
+				<p className="score-details">Score: {score}</p>
+				<p className="overview-details">{overview}</p>
+				</div>
 			</div>
 		);
 	}
