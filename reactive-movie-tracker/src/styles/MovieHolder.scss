@@ -1,7 +1,6 @@
 .movie-holder {
 	display: flex;
 	flex-wrap: wrap;
-	overflow: auto;
+	overflow: hidden;
 	justify-content: space-around;
-	height: 85vh;
 }

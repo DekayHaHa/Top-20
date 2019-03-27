@@ -84,12 +84,15 @@ export const Movie = class extends Component {
   render() {
     const { id, image, isFavorite, activeUser } = this.props;
     let methodToggle;
+    let btnVal;
     let color;
     if (isFavorite) {
       methodToggle = this.deleteFromFavorites;
+      btnVal = "Unfavorite";
       color = '#ffd700'
     } else {
       methodToggle = this.addToFavorites;
+      btnVal = "Favorite";
       color = '#808080'
     }
     const favBtn = (
