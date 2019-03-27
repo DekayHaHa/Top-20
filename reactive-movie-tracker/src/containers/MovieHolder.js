@@ -27,10 +27,13 @@ export class MovieHolder extends Component {
     const moviesToRender =
       activeUser.id && displayFavorites ? favorites : movies;
     const userBtn = <button className='display-favorites' onClick={this.toggleFavorites}>{btnText}</button>
-    const nonUserBtn = <Link to='/login'><button>Display Favorites</button></Link>
+    const nonUserBtn = <Link to='/login'><button className="display-favorites">Display Favorites</button></Link>
     return (
       <div>
+        <div className="display-fav-container">
         {activeUser.id ? userBtn : nonUserBtn}
+
+        </div>
         <div className='movie-holder'>
         {moviesToRender.map(movie => (
           <Movie key={movie.id} {...movie} />

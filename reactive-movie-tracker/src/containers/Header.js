@@ -18,10 +18,10 @@ export const Header = class extends Component {
     const noUserTitle = 'Movie Tracker'
     return (
       <div className="Header">
-        <Link to="/login"><button disabled={toggleBtn}>User Sign In</button></Link>
-        <h2>{activeUser.id ? userTitle : noUserTitle}</h2>
+        <Link to="/login"><button className="btn" disabled={toggleBtn}>User Sign In</button></Link>
+        <h2 className="title">{activeUser.id ? userTitle : noUserTitle}</h2>
         <Link to="/login">
-          <button disabled={!toggleBtn} onClick={this.clearUserData}>Sign Out?</button>
+          <button className="btn" disabled={!toggleBtn} onClick={this.clearUserData}>Sign Out?</button>
         </Link>
       </div>
     );

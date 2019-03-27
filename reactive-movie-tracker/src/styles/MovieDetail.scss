@@ -1,0 +1,31 @@
+.MovieDetails {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100vw;
+  align-items: center;
+}
+
+.movie-poster {
+  display: flex;
+  justify-content: center;
+  height: 500px;
+  width: 400px;
+}
+
+.movie-details-title {
+  font-size: 35px;
+  margin-bottom: 5px;
+}
+
+.overview {
+  font-size: 20px;
+  width: 70vw;
+}
+
+.movie-score {
+  font-size: 30px;
+  margin: 3px;
+}
+
