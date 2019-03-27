@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
+import "../styles/MovieDetails.scss";
+
 
 export const MovieDetails = class extends Component {
 	render() {
 		const {overview, score, image, title } = this.props
 		return (
-			<div>
-				<h1>{title}</h1>
-				<img alt='movie poster' src={image} />
-				<p>Score: {score}</p>
-				<p>{overview}</p>
+			<div className='movie-details'>
+				<img className='img-details' alt='movie poster' src={image} />
+				<div className='details-container'>
+				<h1 className='title-details'>{title}</h1>
+				<p className='score-details'>Score: {score}</p>
+				<p className='overview-details'>{overview}</p>
+				</div>
 			</div>
 		);
 	}

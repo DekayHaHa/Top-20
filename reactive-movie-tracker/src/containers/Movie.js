@@ -84,7 +84,6 @@ export const Movie = class extends Component {
   render() {
     const { id, image, isFavorite, activeUser } = this.props;
     let methodToggle;
-    let btnVal;
     let color;
     if (isFavorite) {
       methodToggle = this.deleteFromFavorites;
