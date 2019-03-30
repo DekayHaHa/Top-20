@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { addFavorites, addMovies } from "../actions";
-import { retrieveAllFavorites } from "../utilities/api";
+import { addMovies } from "../actions";
 import PropTypes from "prop-types";
 import "../styles/Movie.scss";
+import {buttonSVG} from '../utilities/buttonSVG'
 
 export const Movie = class extends Component {
   addToFavorites = async () => {
@@ -37,14 +37,6 @@ export const Movie = class extends Component {
     });
     activeUser.id && (await this.retrieveAllFavFromAPI());
   };
-  retrieveAllFavFromAPI = async () => {
-    const { activeUser } = this.props;
-    const id = activeUser.id;
-    const url = `http://localhost:3000/api/users/${id}/favorites`;
-    let results = await retrieveAllFavorites(url);
-    await this.compareFavorites(results);
-    await this.props.addFavorites(results);
-  };
 
   deleteFromFavorites = async () => {
     const { id, activeUser } = this.props;
@@ -66,21 +58,6 @@ export const Movie = class extends Component {
     activeUser.id && (await this.retrieveAllFavFromAPI());
   };
 
-  compareFavorites = favorites => {
-    const { movies } = this.props;
-    const favIds = favorites.map(fav => fav.id);
-    const newMovies = movies.map(movie => {
-      return favIds.includes(movie.id)
-        ? { ...movie, isFavorite: true }
-        : { ...movie, isFavorite: false };
-    });
-    this.props.addMovies(newMovies);
-  };
-
-  componentDidMount() {
-    this.props.activeUser.id && this.retrieveAllFavFromAPI();
-  }
-
   render() {
     const { id, image, isFavorite, activeUser } = this.props;
     let methodToggle;
@@ -93,13 +70,11 @@ export const Movie = class extends Component {
       color = '#808080'
     }
     const favBtn = (
-      <button className={`favorite-btn ${isFavorite}`} onClick={methodToggle}>
-        <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill={color}><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z" /></svg>
-      </button>
+      <button className={`favorite-btn ${isFavorite}`} onClick={methodToggle}>{buttonSVG(color)}</button>
     );
     const redirectBtn = (
       <Link to="/login">
-        <button className={`favorite-btn ${isFavorite}`}><svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill={color}><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm4.326 18.266l-4.326-2.314-4.326 2.313.863-4.829-3.537-3.399 4.86-.671 2.14-4.415 2.14 4.415 4.86.671-3.537 3.4.863 4.829z" /></svg></button>
+        <button className={`favorite-btn ${isFavorite}`}>{buttonSVG(color)}</button>
       </Link>
     );
     const movieButton = activeUser.id ? favBtn : redirectBtn;
@@ -119,18 +94,15 @@ export const Movie = class extends Component {
 Movie.propTypes = {
   movies: PropTypes.array,
   activeUser: PropTypes.object,
-  favorites: PropTypes.array
 };
 
 export const mapStateToProps = state => ({
   movies: state.movies,
   activeUser: state.activeUser,
-  favorites: state.favorites
 });
 
 export const mapDispatchToProps = dispatch => ({
   addMovies: movies => dispatch(addMovies(movies)),
-  addFavorites: movies => dispatch(addFavorites(movies)),
 });
 
 export default connect(

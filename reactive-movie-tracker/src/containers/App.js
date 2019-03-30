@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import MovieHolder from "./MovieHolder";
+import Favorites from './Favorites'
 import { fetchData } from "../utilities/api";
 import { APIkey } from "../utilities/key.js";
 import { connect } from "react-redux";
@@ -40,6 +41,7 @@ export class App extends Component {
         <Switch>
           <Route exact path="/" component={MovieHolder} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/favorites" component={Favorites} />
           <Route
             exact
             path="/movie/:id"

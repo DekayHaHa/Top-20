@@ -9,7 +9,6 @@ export const signInUser = (id, name) => ({
 	id
 })
 
-export const addFavorites = (movies) => ({
-	type: 'ADD_FAVORITES',
-	movies
+export const signOutUser = () => ({
+	type: 'SIGN_OUT_USer',
 })

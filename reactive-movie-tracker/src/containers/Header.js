@@ -1,28 +1,32 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { signInUser, addFavorites } from "../actions/index";
+import { signInUser, signOutUser } from "../actions/index";
 import PropTypes from "prop-types";
 import "../styles/Header.scss";
 
 export const Header = class extends Component {
   clearUserData = () => {
-    this.props.signInUser(0, "")
-    this.props.addFavorites([]);
+    this.props.signOutUser()
   };
 
   render() {
     const { activeUser } = this.props
-    const toggleBtn = activeUser.id ? true : false
+    let buttonText;
+    if (activeUser.id) {
+      buttonText = 'Sign Out'
+    } else {
+      buttonText = 'User Sign In'
+    }
     const userTitle = `Welcome Back ${activeUser.name}!`
     const noUserTitle = 'Movie Tracker'
     return (
+    //       const userBtn = <button className='display-favorites' onClick={this.toggleFavorites}>{btnText}</button>
+    // const nonUserBtn = <Link to='/login'><button className="display-favorites">Display Favorites</button></Link>
       <div className="Header">
-        <Link to="/login"><button className="btn" disabled={toggleBtn}>User Sign In</button></Link>
+        <Link to="/login"><button className="btn">{buttonText}</button></Link>
         <h2 className="title">{activeUser.id ? userTitle : noUserTitle}</h2>
-        <Link to="/login">
-          <button className="btn" disabled={!toggleBtn} onClick={this.clearUserData}>Sign Out?</button>
-        </Link>
+        <Link to="/favorites"><button>Favorites</button></Link>
       </div>
     );
   }
@@ -38,7 +42,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchtoProps = dispatch => ({
   signInUser: (id, name) => dispatch(signInUser(id, name)),
-  addFavorites: movies => dispatch(addFavorites(movies))
+  signOutUser: () => dispatch(signOutUser()),
 });
 
 export default connect(
