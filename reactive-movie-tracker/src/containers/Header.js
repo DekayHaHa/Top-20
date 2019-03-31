@@ -14,19 +14,22 @@ export const Header = class extends Component {
     const { activeUser } = this.props
     let buttonText;
     let urlPath;
+    let button;
     if (activeUser.id) {
       buttonText = 'Sign Out'
       urlPath = 'favorites'
+      button = <button onClick={this.clearUserData} className="btn">{buttonText}</button>
     } else {
       buttonText = 'User Sign In'
       urlPath = 'login'
+      button = < Link to = "/login" > <button className="btn">{buttonText}</button></Link >
     }
     const welcome = <p>Welcome Back, { activeUser.name }</p>
     return (
       <div className="Header">
       <div>
-        { activeUser.id && welcome }
-        <Link to="/login"><button className="btn">{buttonText}</button></Link>
+        { activeUser.id > 0 && welcome }
+        {button}
       </div>
         <Link to='/'><h2 className="title">Movie Tracker</h2></Link>
         <Link to={`/${urlPath}`}><button>Favorites</button></Link>

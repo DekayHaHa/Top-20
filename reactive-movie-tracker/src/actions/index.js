@@ -10,7 +10,7 @@ export const signInUser = (id, name) => ({
 })
 
 export const signOutUser = () => ({
-	type: 'SIGN_OUT_USer',
+	type: 'SIGN_OUT_USER',
 })
 
 export const isLoading = (bool) => ({

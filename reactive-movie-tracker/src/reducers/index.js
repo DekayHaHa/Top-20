@@ -2,7 +2,7 @@ import { combineReducers } from 'redux';
 import { moviesReducer } from './moviesReducer'
 import { userReducer } from './userReducer';
 import { errorReducer } from './errorReducer';
-import { loadingReducer } from './errorReducer'
+import { loadingReducer } from './loadingReducer'
 
 export const rootReducer = combineReducers({
 	movies: moviesReducer,

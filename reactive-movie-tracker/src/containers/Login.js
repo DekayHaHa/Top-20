@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { signInUser } from "../actions";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../styles/Login.scss";
+import {createUser} from '../Thunks/createUser'
+import { signIn } from '../Thunks/signIn'
 
 export class Login extends Component {
   constructor(props) {
@@ -11,66 +12,44 @@ export class Login extends Component {
     this.state = {
       name: "",
       password: "",
-      email: "",
-      error: ""
+      email: ""
     };
   }
 
-  handlePost = async e => {
-    e.preventDefault();
-    const url = "http://localhost:3000/api/users/new";
+  newUser = async () => {
     const userInfo = {
       id: 1,
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
     };
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(userInfo),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      const data = await response.json();
-      if (data.error) {
-        this.setState({ error: "That email is already taken" });
-      } else {
-        await this.props.signInUser(data.id, this.state.name);
-      }
-    } catch (error) {
-      this.setState(
-        {
-          error: `Could Not Create a New User at This Time.`
-        },
-      );
-    }
+    this.props.createUser(userInfo)
   };
 
   handleSignIn = async e => {
     e.preventDefault();
-    const url = "http://localhost:3000/api/users";
     const userInfo = {
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
     };
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(userInfo),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      const data = await response.json();
-      this.props.signInUser(data.data.id, data.data.name);
-    } catch (error) {
-      this.setState({
-        error: `Username/password does not match.`
-      });
-    }
+    this.props.signIn(userInfo)
+
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: "POST",
+  //       body: JSON.stringify(userInfo),
+  //       headers: {
+  //         "Content-Type": "application/json"
+  //       }
+  //     });
+  //     const data = await response.json();
+  //     this.props.signInUser(data.data.id, data.data.name);
+  //   } catch (error) {
+  //     this.setState({
+  //       error: `Username/password does not match.`
+  //     });
+  //   }
   };
 
   handleNameInput = event => {
@@ -102,8 +81,9 @@ export class Login extends Component {
   };
 
   render() {
-    const { email, password, name, error } = this.state;
+    const { email, password, name } = this.state;
     let formSubmitMethod = this.handleSignIn;
+    const { error } = this.props
     if (error) {
       formSubmitMethod = this.handlePost;
     }
@@ -145,7 +125,7 @@ export class Login extends Component {
             Sign In
           </button>
           {error && (
-            <button className='btn signUp-btn'disabled={signUpBtnToggle} onClick={this.handlePost}>
+            <button className='btn signUp-btn' disabled={signUpBtnToggle} onClick={this.newUser}>
               Sign Up NOW!
             </button>
           )}
@@ -160,11 +140,13 @@ Login.propTypes = {
 };
 
 export const mapStateToProps = state => ({
-  activeUser: state.activeUser
+  activeUser: state.activeUser,
+  error: state.error
 });
 
 export const mapDispatchtoProps = dispatch => ({
-  signInUser: (id, name) => dispatch(signInUser(id, name))
+  createUser: (userInfo) => dispatch(createUser(userInfo)),
+  signIn: (userInfo) => dispatch(signIn(userInfo))
 });
 
 export default connect(

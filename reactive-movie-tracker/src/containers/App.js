@@ -1,35 +1,24 @@
 import React, { Component } from "react";
 import MovieHolder from "./MovieHolder";
 import Favorites from './Favorites'
-import { fetchData } from "../utilities/api";
 import { APIkey } from "../utilities/key.js";
 import { connect } from "react-redux";
-import { addMovies } from "../actions";
 import Header from "./Header";
 import { Route, Switch } from "react-router-dom";
 import Login from "./Login";
-import { cleanMovies } from "../utilities/cleaner";
 import { MovieDetails } from "../components/MovieDetails";
 import { PageNotFound } from "../components/PageNotFound";
 import PropTypes from "prop-types";
 import "../styles/App.scss";
-import getMovies from '../Thunks/getMovies'
+import { getMovies } from '../Thunks/getMovies'
 
 export class App extends Component {
   componentDidMount() {
     this.getMovieData();
   }
-  getMovieData = async () => {
+  getMovieData = () => {
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1`;
-    getMovies(url)
-    // try {
-    //   //isloading
-    //   const response = await fetchData(url);
-    //   const finalData = cleanMovies(response.results);
-    //   this.props.addMovies(finalData);
-    // } catch(error) {
-    //   //finish out
-    // }
+    this.props.getMovies(url)
   };
   findMovieToRender = id => {
     const MovieToRender = this.props.movies.find(movie => movie.id === id);
@@ -70,7 +59,7 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchtoProps = dispatch => ({
-  addMovies: movies => dispatch(addMovies(movies))
+  getMovies: (url) => dispatch(getMovies(url))
 });
 
 export default connect(

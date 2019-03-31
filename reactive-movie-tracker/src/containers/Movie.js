@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { addMovies } from "../actions";
 import PropTypes from "prop-types";
 import "../styles/Movie.scss";
 import {buttonSVG} from '../utilities/buttonSVG'
-import { retrieveFavoritesIds, handleFavotires } from '../utilities/api'
-import { adjustIsFavorite } from '../utilities/cleaner'
+import { handleFavorite } from '../Thunks/handleFavorite'
+import { updateFavs } from '../Thunks/updateFavs'
 
 export const Movie = class extends Component {
   addToFavorites = async () => {
-    const { id, activeUser, title, image, releaseDate, score, overview,
+    const { id, activeUser, title, image, releaseDate, score, overview, movies,
     } = this.props;
     const url = "http://localhost:3000/api/users/favorites/new";
     const movieInfo = {
@@ -22,29 +21,27 @@ export const Movie = class extends Component {
       vote_average: score,
       overview: overview
     };
-    const response = await handleFavotires("POST", movieInfo, url)
-    this.checkFavs()
+    await this.props.handleFavorite("POST", movieInfo, url)
+    await this.props.updateFavs(activeUser.id, movies)
   };
 
   deleteFromFavorites = async () => {
-    const { id, activeUser} = this.props;
+    const { id, activeUser, movies} = this.props;
     const url = `http://localhost:3000/api/users/${activeUser.id}/favorites/${id}`;
     const movieInfo = {
       movie_id: id,
       user_id: activeUser.id
     };
-    const response = await handleFavotires("DELETE", movieInfo, url)
-    this.checkFavs()
+    await this.props.handleFavorite("DELETE", movieInfo, url)
+    await this.props.updateFavs(activeUser.id, movies)
   };
 
-  checkFavs = async () => {
-    const { activeUser, movies, addMovies } = this.props;
-    const results = await retrieveFavoritesIds(activeUser.id);
-    addMovies(adjustIsFavorite(results, movies))
-  }
-
   componentDidMount = () => {
-    this.props.activeUser.id && this.checkFavs()
+    this.checkFavs()
+  }
+  checkFavs = () => {
+    const { activeUser, updateFavs, movies } = this.props
+    activeUser.id && updateFavs(activeUser.id, movies)
   }
 
   render() {
@@ -91,7 +88,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchToProps = dispatch => ({
-  addMovies: movies => dispatch(addMovies(movies)),
+  handleFavorite: (method, movieInfo, url) => dispatch(handleFavorite(method, movieInfo, url)),
+  updateFavs: (id, movies) => dispatch(updateFavs(id, movies))
 });
 
 export default connect(
