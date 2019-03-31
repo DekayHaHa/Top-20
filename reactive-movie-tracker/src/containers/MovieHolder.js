@@ -1,16 +1,25 @@
 import React, { Component } from "react";
 import Movie from "./Movie";
 import { connect } from "react-redux";
-import { addMovies } from "../actions/index";
 import PropTypes from "prop-types";
 import "../styles/MovieHolder.scss";
+import { updateFavs } from '../Thunks/updateFavs'
 
 export class MovieHolder extends Component {
+
+  componentDidMount = () => {
+    this.checkFavs()
+  }
+
+  checkFavs = () => {
+    const { activeUser, movies, updateFavs } = this.props
+    activeUser.id > 0 && updateFavs( activeUser.id, movies)
+  }
+  
   render() {
     const { movies } = this.props;
-
     return (
-        <div className='movie-holder'>
+      <div className='movie-holder'>
         {movies.map(movie => (
           <Movie key={movie.id} {...movie} />
         ))}
@@ -21,19 +30,18 @@ export class MovieHolder extends Component {
 
 MovieHolder.propTypes = {
   movies: PropTypes.array,
-  activeUser: PropTypes.object,
 };
 
 export const mapStateToProps = state => ({
   movies: state.movies,
-  activeUser: state.activeUser,
+  activeUser: state.activeUser
 });
 
-export const mapDispatchToProps = dispatch => ({
-  addMovies: movies => dispatch(addMovies(movies))
+export const mapDispatchtoProps = dispatch => ({
+  updateFavs: (id, movies) => dispatch(updateFavs(id, movies))
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchtoProps
 )(MovieHolder);

@@ -8,6 +8,7 @@ import { handleFavorite } from '../Thunks/handleFavorite'
 import { updateFavs } from '../Thunks/updateFavs'
 
 export const Movie = class extends Component {
+  
   addToFavorites = async () => {
     const { id, activeUser, title, image, releaseDate, score, overview, movies,
     } = this.props;
@@ -35,14 +36,6 @@ export const Movie = class extends Component {
     await this.props.handleFavorite("DELETE", movieInfo, url)
     await this.props.updateFavs(activeUser.id, movies)
   };
-
-  componentDidMount = () => {
-    this.checkFavs()
-  }
-  checkFavs = () => {
-    const { activeUser, updateFavs, movies } = this.props
-    activeUser.id && updateFavs(activeUser.id, movies)
-  }
 
   render() {
     const { id, image, isFavorite, activeUser } = this.props;

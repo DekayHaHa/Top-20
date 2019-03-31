@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import MovieHolder from "./MovieHolder";
 import Favorites from './Favorites'
-import { APIkey } from "../utilities/key.js";
 import { connect } from "react-redux";
 import Header from "./Header";
 import { Route, Switch } from "react-router-dom";
@@ -17,8 +16,7 @@ export class App extends Component {
     this.getMovieData();
   }
   getMovieData = () => {
-    const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1`;
-    this.props.getMovies(url)
+    this.props.getMovies()
   };
   findMovieToRender = id => {
     const MovieToRender = this.props.movies.find(movie => movie.id === id);

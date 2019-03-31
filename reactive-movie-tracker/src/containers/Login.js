@@ -16,40 +16,27 @@ export class Login extends Component {
     };
   }
 
-  newUser = async () => {
+  newUser = e => {
+    e.preventDefault();    
+    const { createUser } = this.props
     const userInfo = {
       id: 1,
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
     };
-    this.props.createUser(userInfo)
+    createUser(userInfo)
   };
 
-  handleSignIn = async e => {
+  handleSignIn = e => {
     e.preventDefault();
+    const { signIn } = this.props
     const userInfo = {
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
     };
-    this.props.signIn(userInfo)
-
-  //   try {
-  //     const response = await fetch(url, {
-  //       method: "POST",
-  //       body: JSON.stringify(userInfo),
-  //       headers: {
-  //         "Content-Type": "application/json"
-  //       }
-  //     });
-  //     const data = await response.json();
-  //     this.props.signInUser(data.data.id, data.data.name);
-  //   } catch (error) {
-  //     this.setState({
-  //       error: `Username/password does not match.`
-  //     });
-  //   }
+    signIn(userInfo)
   };
 
   handleNameInput = event => {
@@ -146,7 +133,7 @@ export const mapStateToProps = state => ({
 
 export const mapDispatchtoProps = dispatch => ({
   createUser: (userInfo) => dispatch(createUser(userInfo)),
-  signIn: (userInfo) => dispatch(signIn(userInfo))
+  signIn: (userInfo) => dispatch(signIn(userInfo)),
 });
 
 export default connect(

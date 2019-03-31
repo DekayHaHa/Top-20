@@ -1,13 +1,17 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { signInUser, signOutUser } from "../actions/index";
+import { signOutUser } from "../actions/index";
 import PropTypes from "prop-types";
 import "../styles/Header.scss";
+import { getMovies } from '../Thunks/getMovies'
+
 
 export const Header = class extends Component {
+
   clearUserData = () => {
     this.props.signOutUser()
+    this.props.getMovies()
   };
 
   render() {
@@ -15,6 +19,7 @@ export const Header = class extends Component {
     let buttonText;
     let urlPath;
     let button;
+
     if (activeUser.id) {
       buttonText = 'Sign Out'
       urlPath = 'favorites'
@@ -24,15 +29,16 @@ export const Header = class extends Component {
       urlPath = 'login'
       button = < Link to = "/login" > <button className="btn">{buttonText}</button></Link >
     }
+
     const welcome = <p>Welcome Back, { activeUser.name }</p>
     return (
-      <div className="Header">
+      <div className="header">
       <div>
         { activeUser.id > 0 && welcome }
         {button}
       </div>
         <Link to='/'><h2 className="title">Movie Tracker</h2></Link>
-        <Link to={`/${urlPath}`}><button>Favorites</button></Link>
+        <Link to={`/${urlPath}`}><button className="btn">Favorites</button></Link>
       </div>
     );
   }
@@ -47,8 +53,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchtoProps = dispatch => ({
-  signInUser: (id, name) => dispatch(signInUser(id, name)),
   signOutUser: () => dispatch(signOutUser()),
+  getMovies: (url) => dispatch(getMovies(url))
 });
 
 export default connect(
