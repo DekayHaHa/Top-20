@@ -12,3 +12,13 @@ export const signInUser = (id, name) => ({
 export const signOutUser = () => ({
 	type: 'SIGN_OUT_USer',
 })
+
+export const isLoading = (bool) => ({
+	type: 'IS_LOADING',
+	isLoading: bool
+})
+
+export const hasError = (message) => ({
+	type: 'HAS_ERROR',
+	message
+})

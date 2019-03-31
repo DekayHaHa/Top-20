@@ -13,6 +13,7 @@ import { MovieDetails } from "../components/MovieDetails";
 import { PageNotFound } from "../components/PageNotFound";
 import PropTypes from "prop-types";
 import "../styles/App.scss";
+import getMovies from '../Thunks/getMovies'
 
 export class App extends Component {
   componentDidMount() {
@@ -20,14 +21,15 @@ export class App extends Component {
   }
   getMovieData = async () => {
     const url = `https://api.themoviedb.org/3/movie/popular?api_key=${APIkey}&language=en-US&page=1`;
-    try {
-      //isloading
-      const response = await fetchData(url);
-      const finalData = cleanMovies(response.results);
-      this.props.addMovies(finalData);
-    } catch(error) {
-      //finish out
-    }
+    getMovies(url)
+    // try {
+    //   //isloading
+    //   const response = await fetchData(url);
+    //   const finalData = cleanMovies(response.results);
+    //   this.props.addMovies(finalData);
+    // } catch(error) {
+    //   //finish out
+    // }
   };
   findMovieToRender = id => {
     const MovieToRender = this.props.movies.find(movie => movie.id === id);

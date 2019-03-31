@@ -22,13 +22,11 @@ export class MovieHolder extends Component {
 MovieHolder.propTypes = {
   movies: PropTypes.array,
   activeUser: PropTypes.object,
-  favorites: PropTypes.array
 };
 
 export const mapStateToProps = state => ({
   movies: state.movies,
   activeUser: state.activeUser,
-  favorites: state.favorites
 });
 
 export const mapDispatchToProps = dispatch => ({

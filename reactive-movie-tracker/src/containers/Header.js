@@ -13,20 +13,23 @@ export const Header = class extends Component {
   render() {
     const { activeUser } = this.props
     let buttonText;
+    let urlPath;
     if (activeUser.id) {
       buttonText = 'Sign Out'
+      urlPath = 'favorites'
     } else {
       buttonText = 'User Sign In'
+      urlPath = 'login'
     }
-    const userTitle = `Welcome Back ${activeUser.name}!`
-    const noUserTitle = 'Movie Tracker'
+    const welcome = <p>Welcome Back, { activeUser.name }</p>
     return (
-    //       const userBtn = <button className='display-favorites' onClick={this.toggleFavorites}>{btnText}</button>
-    // const nonUserBtn = <Link to='/login'><button className="display-favorites">Display Favorites</button></Link>
       <div className="Header">
+      <div>
+        { activeUser.id && welcome }
         <Link to="/login"><button className="btn">{buttonText}</button></Link>
-        <h2 className="title">{activeUser.id ? userTitle : noUserTitle}</h2>
-        <Link to="/favorites"><button>Favorites</button></Link>
+      </div>
+        <Link to='/'><h2 className="title">Movie Tracker</h2></Link>
+        <Link to={`/${urlPath}`}><button>Favorites</button></Link>
       </div>
     );
   }

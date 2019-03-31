@@ -5,19 +5,13 @@ import { addMovies } from "../actions";
 import PropTypes from "prop-types";
 import "../styles/Movie.scss";
 import {buttonSVG} from '../utilities/buttonSVG'
+import { retrieveFavoritesIds, handleFavotires } from '../utilities/api'
+import { adjustIsFavorite } from '../utilities/cleaner'
 
 export const Movie = class extends Component {
   addToFavorites = async () => {
-    const {
-      id,
-      activeUser,
-      title,
-      image,
-      releaseDate,
-      score,
-      overview
+    const { id, activeUser, title, image, releaseDate, score, overview,
     } = this.props;
-
     const url = "http://localhost:3000/api/users/favorites/new";
     const movieInfo = {
       movie_id: id,
@@ -28,35 +22,30 @@ export const Movie = class extends Component {
       vote_average: score,
       overview: overview
     };
-    await fetch(url, {
-      method: "POST",
-      body: JSON.stringify(movieInfo),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    activeUser.id && (await this.retrieveAllFavFromAPI());
+    const response = await handleFavotires("POST", movieInfo, url)
+    this.checkFavs()
   };
 
   deleteFromFavorites = async () => {
-    const { id, activeUser } = this.props;
-
-    const user_id = activeUser.id;
-    const movie_id = id;
-    const url = `http://localhost:3000/api/users/${user_id}/favorites/${movie_id}`;
+    const { id, activeUser} = this.props;
+    const url = `http://localhost:3000/api/users/${activeUser.id}/favorites/${id}`;
     const movieInfo = {
       movie_id: id,
       user_id: activeUser.id
     };
-    await fetch(url, {
-      method: "DELETE",
-      body: JSON.stringify(movieInfo),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    });
-    activeUser.id && (await this.retrieveAllFavFromAPI());
+    const response = await handleFavotires("DELETE", movieInfo, url)
+    this.checkFavs()
   };
+
+  checkFavs = async () => {
+    const { activeUser, movies, addMovies } = this.props;
+    const results = await retrieveFavoritesIds(activeUser.id);
+    addMovies(adjustIsFavorite(results, movies))
+  }
+
+  componentDidMount = () => {
+    this.props.activeUser.id && this.checkFavs()
+  }
 
   render() {
     const { id, image, isFavorite, activeUser } = this.props;

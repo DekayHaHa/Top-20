@@ -95,10 +95,12 @@ export class Login extends Component {
     const { email, password } = this.state;
     return email && password ? false : true;
   };
+
   signUpInputs = () => {
     const { email, password, name } = this.state;
     return email && password && name ? false : true;
   };
+
   render() {
     const { email, password, name, error } = this.state;
     let formSubmitMethod = this.handleSignIn;
@@ -106,7 +108,6 @@ export class Login extends Component {
       formSubmitMethod = this.handlePost;
     }
     const signInBtnToggle = this.signInInputs();
-
     const signUpBtnToggle = this.signUpInputs();
     return (
       <div className="Login">
@@ -135,12 +136,11 @@ export class Login extends Component {
             <input
               className='password-input'
               placeholder='Password'
-              type="text"
+              type="password"
               value={password}
               onChange={this.handlePasswordInput}
             />
           </label>
-          
           <button className='btn signIn-btn' disabled={signInBtnToggle} onClick={this.handleSignIn}>
             Sign In
           </button>
@@ -152,7 +152,6 @@ export class Login extends Component {
         </form>
       </div>
     );
-    // }
   }
 }
 

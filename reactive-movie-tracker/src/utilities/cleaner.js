@@ -12,16 +12,12 @@ export const cleanMovies = (movies) => {
 	})
 }
 
-// export const cleanFavorites = (movies) => {
-// 	return movies.map(val => {
-// 		return { 
-// 			title: val.title,
-// 			image: val.poster_path,
-// 			overview: val.overview,
-// 			score: val.vote_average,
-// 			id: val.movie_id,
-// 			isFavorite: true, 
-// 			releaseDate: val.release_date
-// 		}
-// 	})
-// }
+export const cleanFavorites = (movies) => movies.map(val => val.movie_id)
+
+export const adjustIsFavorite = (favIds, movies) => {
+	return movies.map(movie => {
+      return favIds.includes(movie.id)
+        ? { ...movie, isFavorite: true }
+        : { ...movie, isFavorite: false };
+    });
+}

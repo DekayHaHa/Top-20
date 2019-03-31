@@ -4,17 +4,18 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import "../styles/MovieHolder.scss";
 import {addMovies} from '../actions/index'
+import { retrieveFavoritesIds} from '../utilities/api'
 
 export class Favorites extends Component {
 
-  // retrieveAllFavFromAPI = async () => {
-  //   const { activeUser } = this.props;
-  //   const id = activeUser.id;
-  //   const url = `http://localhost:3000/api/users/${id}/favorites`;
-  //   let results = await retrieveAllFavorites(url);
-  //   await this.compareFavorites(results);
-  //   await this.props.addFavorites(results);
-  // };
+  retrieveAllFavFromAPI = async () => {
+    const { activeUser } = this.props;
+    const id = activeUser.id;
+		let results = await retrieveFavoritesIds(id);
+		console.log(results)
+    // await this.compareFavorites(results);
+    // await this.props.addFavorites(results);
+  };
 
   // compareFavorites = favorites => {
   //   const { movies } = this.props;
