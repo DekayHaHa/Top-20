@@ -35,25 +35,12 @@ describe("actions", () => {
     expect(result).toEqual(expected);
   });
 
-  it("should return a type of addFavorites with movies", () => {
-    const movies = [
-      {
-        vote_count: 1,
-        id: 2,
-        video: false,
-        vote_average: 6.9,
-        title: "Aquaman",
-        popularity: 805.109,
-        poster_path: "/5Kg76ldv7VxeX9YlcQXiowHgdX6.jpg",
-        original_language: "en",
-        original_title: "Aquaman"
-      }
-    ];
+  it("should return a type of SIGN_OUT_USER", () => {
     const expected = {
-      type: "ADD_FAVORITES",
-      movies
+      type: "SIGN_OUT_USER",
     };
-    const result = actions.addFavorites(movies);
+    const result = actions.signOutUser();
     expect(result).toEqual(expected);
   });
+
 });

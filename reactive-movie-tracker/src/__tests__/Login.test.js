@@ -2,7 +2,10 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { Login, mapDispatchtoProps, mapStateToProps} from '../containers/Login'
 import { mockReduxFavs, mockReduxMovies, mockReduxUser } from '../utilities/mockTestData'
-import { signInUser } from '../actions';
+import { signIn } from '../Thunks/signIn';
+import { createUser } from '../Thunks/createUser';
+jest.mock('../Thunks/createUser')
+jest.mock('../Thunks/signIn')
 
 describe("Login", () => {
 	let wrapper;
@@ -123,13 +126,34 @@ describe("Login", () => {
 		//expectation
 		expect(mappedProps).toEqual(expected)
 	});
-	it("should map dispatch to props", () => {
+	it("should map signIn to props", () => {
 		//setup
+		const mockUserInfo = {
+			name: 'Steve',
+			password: 'secret',
+			email: 'gmail'
+		};
 		const mockDispatch = jest.fn()
-		const actionToDispatch = signInUser(2, 'steve')
+		const actionToDispatch = signIn(mockUserInfo)
 		//execution
 		const mappedProps = mapDispatchtoProps(mockDispatch)
-		mappedProps.signInUser(2, 'steve')
+		mappedProps.signIn(mockUserInfo)
+		//expectation
+		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
+	});
+	it("should map createUser to props", () => {
+		//setup
+		const mockUserInfo = {
+			id: 1,
+			name: 'Steve',
+			password: 'secret',
+			email: 'gmail'
+		};
+		const mockDispatch = jest.fn()
+		const actionToDispatch = createUser(mockUserInfo)
+		//execution
+		const mappedProps = mapDispatchtoProps(mockDispatch)
+		mappedProps.createUser(mockUserInfo)
 		//expectation
 		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
 	});

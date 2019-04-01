@@ -1,10 +1,10 @@
-import { signInReducer } from '../reducers/userReducer';
+import { userReducer } from '../reducers/userReducer';
 import * as actions from '../actions';
 
-describe('signInReducer', () => {
+describe('userReducer', () => {
   it('should return the initial state', () => {
     const expected = {};
-    const result = signInReducer(undefined, {});
+    const result = userReducer(undefined, {});
     expect(result).toEqual(expected);
   });
 
@@ -12,7 +12,7 @@ describe('signInReducer', () => {
     const id = 1;
     const name = "Tom"
     const expected = {id: 1, name:"Tom"}
-    const result = signInReducer( {}, actions.signInUser(id, name));
+    const result = userReducer( {}, actions.signInUser(id, name));
     expect(result).toEqual(expected);
 });
 });

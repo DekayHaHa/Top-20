@@ -2,7 +2,12 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { Movie, mapDispatchToProps, mapStateToProps } from '../containers/Movie'
 import { mockReduxFavs, mockReduxMovies, mockReduxUser, mockReduxNewMovies} from '../utilities/mockTestData'
-import { addMovies, addFavorites } from '../actions/index'
+import { addMovies } from '../actions/index'
+import { handleFavorite } from '../Thunks/handleFavorite'
+import { updateFavs } from '../Thunks/updateFavs'
+
+jest.mock('../Thunks/handleFavorite')
+jest.mock('../Thunks/updateFavs')
 
 
 const mockFunc = jest.fn()
@@ -36,13 +41,7 @@ describe("Movie", () => {
 		//execution
 		//expectation
 	});
-	it("should compare favorites and change movies data", () => {
-		//setup
-		//execution
-		wrapper.instance().compareFavorites(mockReduxFavs)
-		//expectation
-		expect(wrapper.instance().props.addMovies).toBeCalledWith(mockReduxNewMovies)
-	});
+	
 	it("should map state to props", () => {
 		//setup
 		const mockStore = {
@@ -54,30 +53,29 @@ describe("Movie", () => {
 		const expected = {
 			activeUser: { name: 'steve', id: 2 },
 			movies: ['should show'],
-			favorites: ['should show'],
 		}
 		//execution
 		const mappedProps = mapStateToProps(mockStore)
 		//expectation
 		expect(mappedProps).toEqual(expected)
 	});
-	it("should map addMovies to props", () => {
+	it.skip("should map updateFavs to props", () => {
 		//setup
 		const mockDispatch = jest.fn()
-		const actionToDispatch = addMovies(['movies'])
+		const actionToDispatch = updateFavs(2, ['movies'])
 		//execution
 		const mappedProps = mapDispatchToProps(mockDispatch)
-		mappedProps.addMovies(['movies'])
+		mappedProps.updateFavs(2, ['movies'])
 		//expectation
 		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
 	});
-	it("should map addFavorites to props", () => {
+	it("should map handleFavorite to props", () => {
 		//setup
 		const mockDispatch = jest.fn()
-		const actionToDispatch = addFavorites(['movies'])
+		const actionToDispatch = handleFavorite()
 		//execution
 		const mappedProps = mapDispatchToProps(mockDispatch)
-		mappedProps.addFavorites(['movies'])
+		mappedProps.handleFavorite()
 		//expectation
 		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
 	});
