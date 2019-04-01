@@ -1,32 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`App should match the snapshot with all data passed in correctly 1`] = `
-<div
-  className="App"
->
-  <Route
-    component={[Function]}
-    path="/"
-  />
-  <Switch>
-    <Route
-      component={[Function]}
-      exact={true}
-      path="/"
-    />
-    <Route
-      component={[Function]}
-      exact={true}
-      path="/login"
-    />
-    <Route
-      exact={true}
-      path="/movie/:id"
-      render={[Function]}
-    />
-    <Route
-      component={[Function]}
-    />
-  </Switch>
-</div>
-`;
+exports[`App should match the snapshot with all data passed in correctly 1`] = `undefined`;

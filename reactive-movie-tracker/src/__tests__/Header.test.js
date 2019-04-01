@@ -2,7 +2,9 @@ import React from 'react';
 import { shallow } from "enzyme";
 import { Header, mapDispatchtoProps, mapStateToProps } from '../containers/Header'
 import { mockReduxFavs, mockReduxMovies, mockReduxUser } from '../utilities/mockTestData'
-import { signInUser, addFavorites } from '../actions/index'
+import { signOutUser } from '../actions/index'
+import { getMovies } from '../Thunks/getMovies'
+jest.mock('../Thunks/getMovies')
 
 describe("Header", () => {
 	let wrapper;
@@ -22,14 +24,6 @@ describe("Header", () => {
 		expect(wrapper).toMatchSnapshot();
 	});
 
-	it("should call signInUser & addFavorites", () => {
-		//setup
-		//execution
-		wrapper.instance().clearUserData()
-		//expectation
-		expect(wrapper.instance().props.signInUser).toBeCalled()
-		expect(wrapper.instance().props.addFavorites).toBeCalled()
-	});
 	it("should map state to props", () => {
 		//setup
 		const mockStore = {
@@ -45,23 +39,25 @@ describe("Header", () => {
 		//expectation
 		expect(mappedProps).toEqual(expected)
 	});
-	it("should map signInUser to props", () => {
+	it("should map signOutUser to props", () => {
 		//setup
 		const mockDispatch = jest.fn()
-		const actionToDispatch = signInUser( 2, 'steve')
+		const actionToDispatch = signOutUser()
 		//execution
 		const mappedProps = mapDispatchtoProps(mockDispatch)
-		mappedProps.signInUser( 2, 'steve')
+		mappedProps.signOutUser()
 		//expectation
 		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
 	});
-	it("should map addFavorites to props", () => {
+	
+	it("should map getMovies to props", () => {
 		//setup
+		const mockUrl = 'www.reddit.com'
 		const mockDispatch = jest.fn()
-		const actionToDispatch = addFavorites(['movies'])
+		const actionToDispatch = getMovies(mockUrl)
 		//execution
 		const mappedProps = mapDispatchtoProps(mockDispatch)
-		mappedProps.addFavorites(['movies'])
+		mappedProps.getMovies(mockUrl)
 		//expectation
 		expect(mockDispatch).toHaveBeenCalledWith(actionToDispatch)
 	});

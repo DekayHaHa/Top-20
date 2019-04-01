@@ -1,28 +1,44 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { signInUser, addFavorites } from "../actions/index";
+import { signOutUser } from "../actions/index";
 import PropTypes from "prop-types";
 import "../styles/Header.scss";
+import { getMovies } from '../Thunks/getMovies'
+
 
 export const Header = class extends Component {
+
   clearUserData = () => {
-    this.props.signInUser(0, "")
-    this.props.addFavorites([]);
+    this.props.signOutUser()
+    this.props.getMovies()
   };
 
   render() {
     const { activeUser } = this.props
-    const toggleBtn = activeUser.id ? true : false
-    const userTitle = `Welcome Back ${activeUser.name}!`
-    const noUserTitle = 'Movie Tracker'
+    let buttonText;
+    let urlPath;
+    let button;
+
+    if (activeUser.id) {
+      buttonText = 'Sign Out'
+      urlPath = 'favorites'
+      button = <button onClick={this.clearUserData} className="btn">{buttonText}</button>
+    } else {
+      buttonText = 'User Sign In'
+      urlPath = 'login'
+      button = < Link to = "/login" > <button className="btn">{buttonText}</button></Link >
+    }
+
+    const welcome = <p>Welcome Back, { activeUser.name }</p>
     return (
-      <div className="Header">
-        <Link to="/login"><button className="btn" disabled={toggleBtn}>User Sign In</button></Link>
-        <h2 className="title">{activeUser.id ? userTitle : noUserTitle}</h2>
-        <Link to="/login">
-          <button className="btn" disabled={!toggleBtn} onClick={this.clearUserData}>Sign Out?</button>
-        </Link>
+      <div className="header">
+      <div>
+        { activeUser.id > 0 && welcome }
+        {button}
+      </div>
+        <Link to='/'><h2 className="title">Movie Tracker</h2></Link>
+        <Link to={`/${urlPath}`}><button className="btn">Favorites</button></Link>
       </div>
     );
   }
@@ -37,8 +53,8 @@ export const mapStateToProps = state => ({
 });
 
 export const mapDispatchtoProps = dispatch => ({
-  signInUser: (id, name) => dispatch(signInUser(id, name)),
-  addFavorites: movies => dispatch(addFavorites(movies))
+  signOutUser: () => dispatch(signOutUser()),
+  getMovies: (url) => dispatch(getMovies(url))
 });
 
 export default connect(

@@ -31,7 +31,7 @@ exports[`Login should match the snapshot with all data passed in correctly 1`] =
         className="password-input"
         onChange={[Function]}
         placeholder="Password"
-        type="text"
+        type="password"
         value=""
       />
     </label>

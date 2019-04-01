@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { signInUser } from "../actions";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import "../styles/Login.scss";
+import {createUser} from '../Thunks/createUser'
+import { signIn } from '../Thunks/signIn'
 
 export class Login extends Component {
   constructor(props) {
@@ -11,66 +12,31 @@ export class Login extends Component {
     this.state = {
       name: "",
       password: "",
-      email: "",
-      error: ""
+      email: ""
     };
   }
 
-  handlePost = async e => {
-    e.preventDefault();
-    const url = "http://localhost:3000/api/users/new";
+  newUser = e => {
+    e.preventDefault();    
+    const { createUser } = this.props
     const userInfo = {
       id: 1,
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
     };
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(userInfo),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      const data = await response.json();
-      if (data.error) {
-        this.setState({ error: "That email is already taken" });
-      } else {
-        await this.props.signInUser(data.id, this.state.name);
-      }
-    } catch (error) {
-      this.setState(
-        {
-          error: `Could Not Create a New User at This Time.`
-        },
-      );
-    }
+    createUser(userInfo)
   };
 
-  handleSignIn = async e => {
+  handleSignIn = e => {
     e.preventDefault();
-    const url = "http://localhost:3000/api/users";
+    const { signIn } = this.props
     const userInfo = {
       name: this.state.name,
       password: this.state.password,
       email: this.state.email
     };
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        body: JSON.stringify(userInfo),
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      const data = await response.json();
-      this.props.signInUser(data.data.id, data.data.name);
-    } catch (error) {
-      this.setState({
-        error: `Username/password does not match.`
-      });
-    }
+    signIn(userInfo)
   };
 
   handleNameInput = event => {
@@ -95,18 +61,20 @@ export class Login extends Component {
     const { email, password } = this.state;
     return email && password ? false : true;
   };
+
   signUpInputs = () => {
     const { email, password, name } = this.state;
     return email && password && name ? false : true;
   };
+
   render() {
-    const { email, password, name, error } = this.state;
+    const { email, password, name } = this.state;
     let formSubmitMethod = this.handleSignIn;
+    const { error } = this.props
     if (error) {
       formSubmitMethod = this.handlePost;
     }
     const signInBtnToggle = this.signInInputs();
-
     const signUpBtnToggle = this.signUpInputs();
     return (
       <div className="Login">
@@ -135,24 +103,22 @@ export class Login extends Component {
             <input
               className='password-input'
               placeholder='Password'
-              type="text"
+              type="password"
               value={password}
               onChange={this.handlePasswordInput}
             />
           </label>
-          
           <button className='btn signIn-btn' disabled={signInBtnToggle} onClick={this.handleSignIn}>
             Sign In
           </button>
           {error && (
-            <button className='btn signUp-btn'disabled={signUpBtnToggle} onClick={this.handlePost}>
+            <button className='btn signUp-btn' disabled={signUpBtnToggle} onClick={this.newUser}>
               Sign Up NOW!
             </button>
           )}
         </form>
       </div>
     );
-    // }
   }
 }
 
@@ -161,11 +127,13 @@ Login.propTypes = {
 };
 
 export const mapStateToProps = state => ({
-  activeUser: state.activeUser
+  activeUser: state.activeUser,
+  error: state.error
 });
 
 export const mapDispatchtoProps = dispatch => ({
-  signInUser: (id, name) => dispatch(signInUser(id, name))
+  createUser: (userInfo) => dispatch(createUser(userInfo)),
+  signIn: (userInfo) => dispatch(signIn(userInfo)),
 });
 
 export default connect(

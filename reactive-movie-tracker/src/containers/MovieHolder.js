@@ -1,66 +1,47 @@
 import React, { Component } from "react";
 import Movie from "./Movie";
-import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { addMovies } from "../actions/index";
 import PropTypes from "prop-types";
 import "../styles/MovieHolder.scss";
+import { updateFavs } from '../Thunks/updateFavs'
 
 export class MovieHolder extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      displayFavorites: false
-    };
+
+  componentDidMount = () => {
+    this.checkFavs()
   }
 
-  toggleFavorites = () => {
-    this.setState({
-      displayFavorites: this.state.displayFavorites ? false : true
-    });
-  };
-
+  checkFavs = () => {
+    const { activeUser, movies, updateFavs } = this.props
+    activeUser.id > 0 && updateFavs( activeUser.id, movies)
+  }
+  
   render() {
-    const { movies, activeUser, favorites } = this.props;
-    const { displayFavorites } = this.state;
-    const btnText = displayFavorites ? "Show All" : "Display Favorites";
-    const moviesToRender =
-      activeUser.id && displayFavorites ? favorites : movies;
-    const userBtn = <button className='display-favorites' onClick={this.toggleFavorites}>{btnText}</button>
-    const nonUserBtn = <Link to='/login'><button className="display-favorites">Display Favorites</button></Link>
+    const { movies } = this.props;
     return (
-      <div>
-        <div className="display-fav-container">
-        {activeUser.id ? userBtn : nonUserBtn}
-
-        </div>
-        <div className='movie-holder'>
-        {moviesToRender.map(movie => (
+      <div className='movie-holder'>
+        {movies.map(movie => (
           <Movie key={movie.id} {...movie} />
         ))}
         </div>
-      </div>
     );
   }
 }
 
 MovieHolder.propTypes = {
   movies: PropTypes.array,
-  activeUser: PropTypes.object,
-  favorites: PropTypes.array
 };
 
 export const mapStateToProps = state => ({
   movies: state.movies,
-  activeUser: state.activeUser,
-  favorites: state.favorites
+  activeUser: state.activeUser
 });
 
-export const mapDispatchToProps = dispatch => ({
-  addMovies: movies => dispatch(addMovies(movies))
+export const mapDispatchtoProps = dispatch => ({
+  updateFavs: (id, movies) => dispatch(updateFavs(id, movies))
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchtoProps
 )(MovieHolder);

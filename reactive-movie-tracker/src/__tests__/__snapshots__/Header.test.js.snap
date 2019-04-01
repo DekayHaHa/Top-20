@@ -2,28 +2,36 @@
 
 exports[`Header should match the snapshot with all data passed in correctly 1`] = `
 <div
-  className="Header"
+  className="header"
 >
-  <Link
-    to="/login"
-  >
+  <div>
+    <p>
+      Welcome Back, 
+      Jeff
+    </p>
     <button
-      disabled={true}
-    >
-      User Sign In
-    </button>
-  </Link>
-  <h2>
-    Welcome Back Jeff!
-  </h2>
-  <Link
-    to="/login"
-  >
-    <button
-      disabled={false}
+      className="btn"
       onClick={[Function]}
     >
-      Sign Out?
+      Sign Out
+    </button>
+  </div>
+  <Link
+    to="/"
+  >
+    <h2
+      className="title"
+    >
+      Movie Tracker
+    </h2>
+  </Link>
+  <Link
+    to="/favorites"
+  >
+    <button
+      className="btn"
+    >
+      Favorites
     </button>
   </Link>
 </div>
